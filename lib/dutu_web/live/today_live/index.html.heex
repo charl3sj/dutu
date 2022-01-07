@@ -1,0 +1,17 @@
+<div class="top">
+  <div class="left">
+    <h1>Today</h1>
+  </div>
+</div>
+<%= if !Enum.empty? @todos do %>
+  <h4>Todos</h4>
+  <ul class="mundanes-list">
+    <%= for todo <- @todos do %>
+    <li class="mundane-item">
+      <div class="title"><%= todo.title %></div>
+      <div class="due-when">[<%= todo.formatted_date %>]</div>
+      <%= live_patch "Done", to: Routes.today_index_path(@socket, :update, :todo, todo.id) %>
+    </li>
+    <% end %>
+  </ul>
+<% end %>

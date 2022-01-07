@@ -3,11 +3,13 @@
 <%= if @live_action in [:edit] do %>
   <.modal return_to={Routes.todo_show_path(@socket, :show, @todo)}>
     <.live_component
-      module={DutuWeb.TodoLive.FormComponent}
+      module={DutuWeb.TodoLive.NewTodoForm}
       id={@todo.id}
       title={@page_title}
       action={@live_action}
       todo={@todo}
+      todo_form={@todo_form}
+      due_date_types={@due_date_types}
       return_to={Routes.todo_show_path(@socket, :show, @todo)}
     />
   </.modal>
@@ -22,7 +24,7 @@
 
   <li>
     <strong>Due date:</strong>
-    <%= @todo.due_date %>
+    <%= @todo.formatted_date %>
   </li>
 
 </ul>

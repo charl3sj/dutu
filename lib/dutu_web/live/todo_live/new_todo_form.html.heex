@@ -1,0 +1,49 @@
+<div class="container">
+  <h2><%= @title %></h2>
+  <.form id="todo-form" let={f} for={@changeset} phx-target={@myself} phx-change="validate" phx-submit="save">
+    <div id="title-fields">
+      <%= label f, :title %>
+      <span class="input-error-combo">
+        <%= textarea f, :title, [style: "width: 500px"] %>
+        <%= error_tag f, :title %>
+      </span>
+    </div>
+    <hr/>
+    <div class="row">
+      <div class="column column-50">
+        <script type="text/javascript">
+            function selectClosestDatetype(el) {
+                let closestDateType = el.closest('.due-date-option').firstElementChild
+                closestDateType.checked = true
+            }
+        </script>
+        <div id="due-date-select">
+          <label>Do when?</label>&nbsp;<%= error_tag f, :date_type %>
+          <div class="due-date-option">
+            <%= radio_button f, :date_type, @due_date_types.on, [id: "exact-type"] %>
+            on <span class="input_error_combo">
+                  <%= text_input f, :due_date, [class: "pickr-txt mgn-lr-8", "phx-hook": "datePicker", "data-input": "", onchange: "selectClosestDatetype(this)"] %>
+                  <%= error_tag f, :due_date %>
+               </span>
+          </div>
+          <div class="due-date-option">
+            <%= radio_button f, :date_type, @due_date_types.between, [id: "daterange-type"] %>
+            between <span class="input-error-combo">
+                      <%= text_input f, :start_date, [class: "pickr-txt", "phx-hook": "datePicker", "data-input": "", onchange: "selectClosestDatetype(this)"] %>
+                      <%= error_tag f, :start_date %>
+                    </span>
+            and <span class="input-error-combo">
+                  <%= text_input f, :end_date, [class: "pickr-txt", "phx-hook": "datePicker", "data-input": "", onchange: "selectClosestDatetype(this)"] %>
+                  <%= error_tag f, :end_date %>
+                </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br/>
+    <input type="submit" value="Save" />&nbsp;&nbsp;
+    <%= if @action == :edit do %>
+      <span><%= link "Delete", to: Routes.todo_index_path(@socket, :index), phx_click: "delete", phx_value_id: @todo.id, data: [confirm: "Are you sure?"] %></span>
+    <% end %>
+  </.form>
+</div>

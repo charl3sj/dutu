@@ -3,8 +3,8 @@ defmodule Dutu.General.Todo do
   import Ecto.Changeset
 
   import Timex
-  import Circadiem.DateHelpers
-  use Circadiem.DateHelpers
+  import Dutu.DateHelpers
+  use Dutu.DateHelpers
 
   alias Dutu.General.Todo
 
@@ -105,7 +105,7 @@ defmodule Dutu.General.Todo do
     end
   end
 
-  def due_today?(todo), do: due_on_date?(todo, today())
+  def due_today?(todo), do: due_on_date?(todo, today("Asia/Calcutta"))
 
   def due_tomorrow?(todo), do: due_on_date?(todo, tomorrow())
 

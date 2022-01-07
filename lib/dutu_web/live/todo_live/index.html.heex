@@ -3,11 +3,13 @@
 <%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.todo_index_path(@socket, :index)}>
     <.live_component
-      module={DutuWeb.TodoLive.FormComponent}
+      module={DutuWeb.TodoLive.NewTodoForm}
       id={@todo.id || :new}
       title={@page_title}
       action={@live_action}
       todo={@todo}
+      todo_form={@todo_form}
+      due_date_types={@due_date_types}
       return_to={Routes.todo_index_path(@socket, :index)}
     />
   </.modal>
@@ -26,7 +28,7 @@
     <%= for todo <- @todos do %>
       <tr id={"todo-#{todo.id}"}>
         <td><%= todo.title %></td>
-        <td><%= todo.due_date %></td>
+        <td><%= todo.formatted_date %></td>
 
         <td>
           <span><%= live_redirect "Show", to: Routes.todo_show_path(@socket, :show, todo) %></span>

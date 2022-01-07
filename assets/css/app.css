@@ -118,3 +118,30 @@
   0% { opacity: 1; }
   100% { opacity: 0; }
 }
+
+.mundanes-list {
+  list-style: none;
+}
+
+.mundane-item {
+  background: lemonchiffon;
+  width: fit-content;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+}
+
+.mundane-item .title {
+  font-size: 2rem;
+}
+
+.mundane-item .due-when {
+  color: #95999c;
+  font-size: small;
+}
+
+input.pickr-txt {
+  width: 80px;
+  height: 2.6rem;
+  margin-left: 8px;
+  margin-right: 8px;
+}

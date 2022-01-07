@@ -17,6 +17,8 @@ defmodule DutuWeb.Router do
   scope "/", DutuWeb do
     pipe_through :browser
 
+    live "/", TodayLive.Index, :index
+    live "/done/:item/:id", TodayLive.Index, :update
     live "/todos", TodoLive.Index, :index
     live "/todos/new", TodoLive.Index, :new
     live "/todos/:id/edit", TodoLive.Index, :edit

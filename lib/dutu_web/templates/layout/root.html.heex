@@ -13,14 +13,16 @@
     <header>
       <section class="container">
         <nav>
-          <ul>
-            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-              <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
-            <% end %>
-          </ul>
+          <%= link "/home", to: Routes.today_index_path(@conn, :index) %>
+          <%= link "/todos", to: Routes.todo_index_path(@conn, :index) %>
         </nav>
       </section>
     </header>
     <%= @inner_content %>
+    <footer class="container" style="margin-top:20%; text-align: center">
+      <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
+        <%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %>
+      <% end %>
+    </footer>
   </body>
 </html>

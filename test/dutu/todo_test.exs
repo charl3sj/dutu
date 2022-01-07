@@ -3,11 +3,11 @@ defmodule Dutu.General.TodoTest do
   This module defines tests for the 'Dutu.General.Todo' domain object
   """
 
-  use Dutu.DataCase, async: true
+  use Dutu.DataCase
 
   alias Dutu.General
   alias Dutu.General.Todo
-  use Circadiem.DateHelpers
+  use Dutu.DateHelpers
 
   describe "put_formatted_date/1 ::" do
     test "todo with no due date" do

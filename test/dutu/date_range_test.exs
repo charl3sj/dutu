@@ -53,21 +53,21 @@ defmodule Dutu.DateRangeTest do
 				       lower: ~D[2022-01-01],
 				       upper: ~D[2022-01-05],
 			       }
-		       ) == {:ok, %{lower: ~D"2022-01-01", upper: ~D"2022-01-04"}},
+		       ) == {:ok, [~D"2022-01-01", ~D"2022-01-04"]},
 		       "lower and upper bounds set"
 
 		assert load(
 			       %Postgrex.Range{
 				       lower: ~D[2022-01-01]
 			       }
-		       ) == {:ok, %{lower: ~D"2022-01-01", upper: nil}},
+		       ) == {:ok, [~D"2022-01-01", nil]},
 		       "upper bound unspecified"
 
 		assert load(
 			       %Postgrex.Range{
 				       upper: ~D[2022-01-02]
 			       }
-		       ) == {:ok, %{lower: nil, upper: ~D"2022-01-01"}},
+		       ) == {:ok, [nil, ~D"2022-01-01"]},
 		       "lower bound unspecified"
 	end
 end

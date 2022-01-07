@@ -3,6 +3,8 @@ defmodule DutuWeb.TodoLive.Index do
 
   alias Dutu.General
   alias Dutu.General.Todo
+  alias Dutu.General.TodoForm
+  use Dutu.DateHelpers
 
   @impl true
   def mount(_params, _session, socket) do
@@ -15,15 +17,20 @@ defmodule DutuWeb.TodoLive.Index do
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
+    todo = General.get_todo!(id)
     socket
     |> assign(:page_title, "Edit Todo")
-    |> assign(:todo, General.get_todo!(id))
+    |> assign(:todo, todo)
+    |> assign(:todo_form, todo |> General.TodoForm.from_todo)
+    |> assign(:due_date_types, @due_date_types)
   end
 
   defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "New Todo")
     |> assign(:todo, %Todo{})
+    |> assign(:todo_form, %TodoForm{})
+    |> assign(:due_date_types, @due_date_types)
   end
 
   defp apply_action(socket, :index, _params) do

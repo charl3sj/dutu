@@ -31,14 +31,14 @@ defmodule Dutu.DateRange do
 	  So decrement upper bound by 1 while loading, for dutu's use-case.
 	"""
 	def load(%Postgrex.Range{lower: lower, upper: upper}) when upper in [:unbound, nil] do
-		{:ok, %{lower: lower, upper: nil}}
+		{:ok, [lower, nil]}
 	end
 
 	def load(%Postgrex.Range{lower: lower, upper: upper}) do
 		case {lower, upper} do
-			{:unbound, upper} -> {:ok, %{lower: nil, upper: Date.add(upper, -1)}}
-			{nil, upper} -> {:ok, %{lower: nil, upper: Date.add(upper, -1)}}
-			{lower, upper} -> {:ok, %{lower: lower, upper: Date.add(upper, -1)}}
+			{:unbound, upper} -> {:ok, [nil, Date.add(upper, -1)]}
+			{nil, upper} -> {:ok, [nil, Date.add(upper, -1)]}
+			{lower, upper} -> {:ok, [lower, Date.add(upper, -1)]}
 		end
 	end
 end
