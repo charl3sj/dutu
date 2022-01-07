@@ -47,7 +47,9 @@ defmodule Dutu.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.5"}
+      {:plug_cowboy, "~> 2.5"},
+      {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
+      {:timex, "~> 3.0"}
     ]
   end
 

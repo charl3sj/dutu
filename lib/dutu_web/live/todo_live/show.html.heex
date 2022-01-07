@@ -1,0 +1,31 @@
+<h1>Show Todo</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.todo_show_path(@socket, :show, @todo)}>
+    <.live_component
+      module={DutuWeb.TodoLive.FormComponent}
+      id={@todo.id}
+      title={@page_title}
+      action={@live_action}
+      todo={@todo}
+      return_to={Routes.todo_show_path(@socket, :show, @todo)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @todo.title %>
+  </li>
+
+  <li>
+    <strong>Due date:</strong>
+    <%= @todo.due_date %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.todo_show_path(@socket, :edit, @todo), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.todo_index_path(@socket, :index) %></span>

@@ -12,19 +12,37 @@ jobs:
     name: Build and test
     runs-on: ubuntu-latest
     env:
-        DUTU_DB_HOSTNAME: db
         DUTU_DB_PORT: 5432
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_DB: dutu_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        
     steps:
+    - name: Install PostgreSQL client
+      run: |
+          sudo apt-get update
+          sudo apt-get install --yes postgresql-client
+
+      # queries database with postgres client
+    - name: Query database
+      run: psql -h localhost -d dutu_test -U postgres -c 'SELECT 1;'
+      env:
+          PGPASSWORD: postgres
+          
     - uses: actions/checkout@v2
-    - name: Setup PostgreSQL
-      uses: Harmon758/postgresql-action@v1.0.0
-      with:
-        postgresql db: dutu_test
     - name: Set up Elixir
       uses: erlef/setup-beam@988e02bfe678367a02564f65ca2e37726dc0268f
       with:
         elixir-version: '1.13' # Define the elixir version [required]
         otp-version: '24.1' # Define the OTP version [required]
+        
     - name: Restore dependencies cache
       uses: actions/cache@v2
       with:
