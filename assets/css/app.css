@@ -145,3 +145,13 @@ input.pickr-txt {
   margin-left: 8px;
   margin-right: 8px;
 }
+
+.top #date {
+  color: #666;
+  border-right: 1px dotted #bbb;
+  border-left: 1px dotted #bbb;
+  margin-left: .5em;
+  padding-left: .5em;
+  margin-right: .5em;
+  padding-right: .5em;
+}

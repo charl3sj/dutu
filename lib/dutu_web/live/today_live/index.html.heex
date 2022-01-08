@@ -1,7 +1,15 @@
 <div class="top">
   <div class="left">
-    <h1>Today</h1>
+    <h1>Today <span id="date"></span> <span id="clock"></span></h1>
   </div>
+  <script type="text/javascript">
+      function setTime() {
+          let d = new Date()
+          document.getElementById("date").innerHTML = d.toDateString().replace(/\s+\d+$/g, '')
+          document.getElementById("clock").innerHTML = d.toLocaleTimeString()
+      }
+      setInterval(setTime, 1000)
+  </script>
 </div>
 <%= if !Enum.empty? @todos do %>
   <h4>Todos</h4>
