@@ -1,25 +1,49 @@
 <div class="top">
   <div class="left">
-    <h1>Today <span id="date"></span> <span id="clock"></span></h1>
+    <h1>Today
+      <span id="date"><%= Timex.today("Asia/Calcutta") |> Calendar.strftime("%a %b %d") %></span>
+      <span id="clock"><%= Timex.now("Asia/Calcutta") |> Calendar.strftime("%I:%M:%S %p") %></span>
+    </h1>
   </div>
   <script type="text/javascript">
-      function setTime() {
+      function refreshTime() {
           let d = new Date()
           document.getElementById("date").innerHTML = d.toDateString().replace(/\s+\d+$/g, '')
           document.getElementById("clock").innerHTML = d.toLocaleTimeString()
       }
-      setInterval(setTime, 1000)
+      setInterval(refreshTime, 1000)
   </script>
 </div>
+<div class="row">
 <%= if !Enum.empty? @todos do %>
-  <h4>Todos</h4>
-  <ul class="mundanes-list">
-    <%= for todo <- @todos do %>
-    <li class="mundane-item">
-      <div class="title"><%= todo.title %></div>
-      <div class="due-when">[<%= todo.formatted_date %>]</div>
-      <%= live_patch "Done", to: Routes.today_index_path(@socket, :update, :todo, todo.id) %>
-    </li>
-    <% end %>
-  </ul>
+  <div class="column column-50">
+    <h4>Todos</h4>
+    <ul class="mundanes-list">
+      <%= for todo <- @todos do %>
+      <li class="mundane-item">
+        <div class="title"><%= todo.title %></div>
+        <div class="due-when">[<%= todo.formatted_date %>]</div>
+        <%= live_patch "Done", to: Routes.today_index_path(@socket, :update, :todo, todo.id) %>
+      </li>
+      <% end %>
+    </ul>
+  </div>
 <% end %>
+<%= if !Enum.empty? @chores do %>
+  <div class="column column-50">
+    <h4>Chores</h4>
+    <ul class="mundanes-list">
+      <%= for chore <- @chores do %>
+      <li class="mundane-item">
+        <%= chore.title %>
+        <div class="due-when"></div>
+        <%= if chore.last_done_at do %>
+        <div class="due-when">last done on [<%= chore.last_done_at |> Dutu.DateHelpers.to_default_format %>]</div>
+        <% end %>
+        <%= live_patch "Done", to: Routes.today_index_path(@socket, :update, :chore, chore.id) %>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+</div>

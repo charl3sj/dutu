@@ -6,8 +6,8 @@ defmodule DutuWeb.TodayLive.Index do
 	@impl true
 	def mount(_params, _session, socket) do
 		{:ok, socket
-		      |> assign(:todos, list_todos())}
-#		      |> assign(:chores, list_chores())}
+		      |> assign(:todos, list_todos())
+		      |> assign(:chores, list_chores())}
 	end
 
 	@impl true
@@ -26,6 +26,12 @@ defmodule DutuWeb.TodayLive.Index do
 		redirect(socket, to: "/")
 	end
 
+	defp apply_action(socket, :update, %{"id" => id, "item" => "chore"} = _params) do
+		chore = General.get_chore!(id)
+		General.mark_chore_as_done(chore)
+		redirect(socket, to: "/")
+	end
+
 	defp list_todos do
 		all = General.list_todos()
 		todays = all |> General.filter_todos_by_period(:today)
@@ -33,7 +39,7 @@ defmodule DutuWeb.TodayLive.Index do
 		pending ++ todays
 	end
 
-#	defp list_chores do
-#		General.list_chores() |> General.filter_chores_due_today()
-#	end
+	defp list_chores do
+		General.list_chores() |> General.filter_chores_due_today()
+	end
 end

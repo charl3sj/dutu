@@ -1,5 +1,5 @@
 defmodule Dutu.GeneralTest do
-  use Dutu.DataCase
+  use Dutu.DataCase, async: true
 
   alias Dutu.General
   alias Dutu.General.Todo
@@ -162,6 +162,64 @@ defmodule Dutu.GeneralTest do
       assert pending_todos |> Enum.any?(&(&1.title == "last week")) == true
       assert pending_todos |> Enum.count >= 2
       assert pending_todos |> Enum.count <= 3 # %{title: "early this year"}
+    end
+  end
+
+  describe "chores" do
+    alias Dutu.General.Chore
+
+    import Dutu.GeneralFixtures
+
+    @invalid_attrs %{last_done_at: nil, rrule: nil, title: nil}
+
+    test "list_chores/0 returns all chores" do
+      chore = chore_fixture()
+      assert General.list_chores() == [chore]
+    end
+
+    test "get_chore!/1 returns the chore with given id" do
+      chore = chore_fixture()
+      assert General.get_chore!(chore.id) == chore
+    end
+
+    test "create_chore/1 with valid data creates a chore" do
+      valid_attrs = %{last_done_at: ~N[2022-01-07 09:58:00], rrule: %{}, title: "some title"}
+
+      assert {:ok, %Chore{} = chore} = General.create_chore(valid_attrs)
+      assert chore.last_done_at == ~N[2022-01-07 09:58:00]
+      assert chore.rrule == %{}
+      assert chore.title == "some title"
+    end
+
+    test "create_chore/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = General.create_chore(@invalid_attrs)
+    end
+
+    test "update_chore/2 with valid data updates the chore" do
+      chore = chore_fixture()
+      update_attrs = %{last_done_at: ~N[2022-01-08 09:58:00], rrule: %{}, title: "some updated title"}
+
+      assert {:ok, %Chore{} = chore} = General.update_chore(chore, update_attrs)
+      assert chore.last_done_at == ~N[2022-01-08 09:58:00]
+      assert chore.rrule == %{}
+      assert chore.title == "some updated title"
+    end
+
+    test "update_chore/2 with invalid data returns error changeset" do
+      chore = chore_fixture()
+      assert {:error, %Ecto.Changeset{}} = General.update_chore(chore, @invalid_attrs)
+      assert chore == General.get_chore!(chore.id)
+    end
+
+    test "delete_chore/1 deletes the chore" do
+      chore = chore_fixture()
+      assert {:ok, %Chore{}} = General.delete_chore(chore)
+      assert_raise Ecto.NoResultsError, fn -> General.get_chore!(chore.id) end
+    end
+
+    test "change_chore/1 returns a chore changeset" do
+      chore = chore_fixture()
+      assert %Ecto.Changeset{} = General.change_chore(chore)
     end
   end
 end

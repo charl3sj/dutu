@@ -3,7 +3,7 @@ defmodule Dutu.General.TodoTest do
   This module defines tests for the 'Dutu.General.Todo' domain object
   """
 
-  use Dutu.DataCase
+  use Dutu.DataCase, async: true
 
   alias Dutu.General
   alias Dutu.General.Todo

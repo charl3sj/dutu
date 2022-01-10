@@ -1,0 +1,43 @@
+<h1 id="page-title">Chores</h1>
+<div style="font-size:1.4em; float:right">
+  <%= live_patch "New Chore", to: Routes.chore_index_path(@socket, :new) %>
+</div>
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.chore_index_path(@socket, :index)}>
+    <.live_component
+      module={DutuWeb.ChoreLive.NewChoreForm}
+      id={@chore.id || :new}
+      title={@page_title}
+      action={@live_action}
+      chore={@chore}
+      chore_form={@chore_form}
+      return_to={Routes.chore_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+<%= if !Enum.empty? @chores.every_x_days do %>
+<hr/>
+<h3>Every X days</h3>
+<ul>
+  <%= for chore <- @chores.every_x_days do %>
+  <li class="chore">
+    <span class="chore-title"><%= chore.title %></span>
+    <span class="chore-recurs-on"><%= "every #{chore.rrule["interval"]} days" %></span>
+    <span class="chore-edit"><%= live_patch "𝌡", to: Routes.chore_index_path(@socket, :edit, chore) %></span>
+  </li>
+  <% end %>
+</ul>
+<% end %>
+<%= if !Enum.empty? @chores.every_week do %>
+<hr/>
+<h3>Every week</h3>
+<ul>
+  <%= for chore <- @chores.every_week do %>
+  <li class="chore">
+    <span class="chore-title"><%= chore.title %></span>
+    <span class="chore-recurs-on"><%= "every week on #{chore.rrule["days_of_week"]}" %></span>
+    <span class="chore-edit"><%= live_patch "𝌡", to: Routes.chore_index_path(@socket, :edit, chore) %></span>
+  </li>
+  <% end %>
+</ul>
+<% end %>

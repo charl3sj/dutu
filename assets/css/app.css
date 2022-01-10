@@ -155,3 +155,9 @@ input.pickr-txt {
   margin-right: .5em;
   padding-right: .5em;
 }
+
+input.thin {
+  width: 8em;
+  margin-left: 8px;
+  margin-right: 8px;
+}

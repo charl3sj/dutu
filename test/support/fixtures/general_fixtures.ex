@@ -52,4 +52,20 @@ defmodule Dutu.GeneralFixtures do
                                                  shift(start_of_next_quarter(), weeks: 2)], date_attrs: %{"type" => @due_date_types.between}},
     ] |> Enum.map(fn todo -> todo_fixture(todo) end)
   end
+
+  @doc """
+  Generate a chore.
+  """
+  def chore_fixture(attrs \\ %{}) do
+    {:ok, chore} =
+      attrs
+      |> Enum.into(%{
+        last_done_at: ~N[2022-01-07 09:58:00],
+        rrule: %{},
+        title: "some title"
+      })
+      |> Dutu.General.create_chore()
+
+    chore
+  end
 end

@@ -8,6 +8,8 @@ defmodule Dutu.General do
 
   alias Dutu.General.Todo
   alias Dutu.General.TodoForm
+  alias Dutu.General.Chore
+  alias Dutu.General.ChoreForm
 
   def fill_todo_virtual_fields(todo) do
     todo
@@ -72,4 +74,47 @@ defmodule Dutu.General do
   def filter_pending_todos(todos) do
     todos |> Enum.filter(& Todo.due_before?(&1, Timex.today("Asia/Calcutta")))
   end
+
+  alias Dutu.General.Chore
+
+  def list_chores do
+    Repo.all(Chore)
+  end
+
+  def get_chore!(id), do: Repo.get!(Chore, id)
+
+  def create_chore(attrs \\ %{}) do
+    %Chore{}
+    |> Chore.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def update_chore(%Chore{} = chore, attrs) do
+    chore
+    |> Chore.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def delete_chore(%Chore{} = chore) do
+    Repo.delete(chore)
+  end
+
+  def mark_chore_as_done(%Chore{} = chore) do
+    chore
+    |> update_chore(%{last_done_at: Timex.now("Asia/Calcutta")})
+  end
+
+  def change_chore(%Chore{} = chore, attrs \\ %{}) do
+    Chore.changeset(chore, attrs)
+  end
+
+  def change_chore_form(%ChoreForm{} = form, attrs \\ %{}) do
+    ChoreForm.changeset(form, attrs)
+  end
+
+  def filter_chores_by_frequency(chores, :daily), do: chores |> Enum.filter(& Chore.recurs_every_x_days? &1)
+  def filter_chores_by_frequency(chores, :weekly), do: chores |> Enum.filter(& Chore.recurs_every_week? &1)
+
+  def filter_chores_due_today(chores), do: Enum.filter(chores, & Chore.due_on_date?(&1, Timex.today()))
+
 end

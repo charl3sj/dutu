@@ -24,6 +24,9 @@ defmodule DutuWeb.Router do
     live "/todos/:id/edit", TodoLive.Index, :edit
     live "/todos/:id", TodoLive.Show, :show
     live "/todos/:id/show/edit", TodoLive.Show, :edit
+    live "/chores", ChoreLive.Index, :index
+    live "/chores/new", ChoreLive.Index, :new
+    live "/chores/:id/edit", ChoreLive.Index, :edit
   end
 
   # Other scopes may use custom stacks.
