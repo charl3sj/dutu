@@ -3,7 +3,9 @@ defmodule Dutu.GeneralFixtures do
   This module defines test helpers for creating
   entities via the `Dutu.General` context.
   """
-  import Timex
+  import Timex,
+    only: [shift: 2, end_of_week: 1, end_of_month: 1, end_of_quarter: 1, end_of_year: 1]
+
   import Dutu.DateHelpers
   use Dutu.DateHelpers
 

@@ -17,6 +17,10 @@ config :dutu, DutuWeb.Endpoint,
   pubsub_server: Dutu.PubSub,
   live_view: [signing_salt: "jMnivvSs"]
 
+# Configure default timezone
+config :dutu,
+  default_tz: System.get_env("DUTU_TIMEZONE", "Asia/Calcutta")
+
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.14.0",
