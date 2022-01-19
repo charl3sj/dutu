@@ -23,6 +23,11 @@ defmodule Dutu.DateHelpers do
         before: "before",
         after: "after"
       }
+
+      @recurrence_frequency %{
+        daily: "daily",
+        weekly: "weekly"
+      }
     end
   end
 end

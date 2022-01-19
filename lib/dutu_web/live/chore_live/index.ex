@@ -25,6 +25,7 @@ defmodule DutuWeb.ChoreLive.Index do
     |> assign(:page_title, "New Chore")
     |> assign(:chore, %General.Chore{})
     |> assign(:chore_form, %General.ChoreForm{})
+    |> assign(:recurrence_frequency, @recurrence_frequency)
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
@@ -34,6 +35,7 @@ defmodule DutuWeb.ChoreLive.Index do
     |> assign(:page_title, "Edit Chore")
     |> assign(:chore, chore)
     |> assign(:chore_form, chore |> General.ChoreForm.from_chore())
+    |> assign(:recurrence_frequency, @recurrence_frequency)
   end
 
   @impl true

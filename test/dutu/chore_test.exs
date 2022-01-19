@@ -1,20 +1,22 @@
 defmodule Dutu.ChoreTest do
   use Dutu.DataCase, async: true
 
+  use Dutu.DateHelpers
+
   alias Dutu.General
   alias Dutu.General.Chore
 
   @daily_frequency_chore %{
     title: "some title",
     rrule: %{
-      "frequency" => "daily",
+      "frequency" => @recurrence_frequency.daily,
       "interval" => 10
     }
   }
   @weekly_frequency_chore %{
     title: "some title",
     rrule: %{
-      "frequency" => "weekly",
+      "frequency" => @recurrence_frequency.weekly,
       "days_of_week" => "Sun, Wed"
     }
   }
@@ -49,7 +51,7 @@ defmodule Dutu.ChoreTest do
         General.create_chore(%{
           title: "some title",
           rrule: %{
-            "frequency" => "daily",
+            "frequency" => @recurrence_frequency.daily,
             "interval" => 3
           },
           last_done_at: ~N"2022-01-08 11:00:00"
@@ -64,7 +66,7 @@ defmodule Dutu.ChoreTest do
         General.create_chore(%{
           title: "some title",
           rrule: %{
-            "frequency" => "daily",
+            "frequency" => @recurrence_frequency.daily,
             "interval" => 3
           },
           last_done_at: ~N"2022-01-08 11:00:00"
@@ -79,7 +81,7 @@ defmodule Dutu.ChoreTest do
         General.create_chore(%{
           title: "some title",
           rrule: %{
-            "frequency" => "weekly",
+            "frequency" => @recurrence_frequency.weekly,
             "days_of_week" => "Sun, Wed"
           },
           last_done_at: ~N"2022-01-09 11:00:00"
@@ -96,7 +98,7 @@ defmodule Dutu.ChoreTest do
         General.create_chore(%{
           title: "some title",
           rrule: %{
-            "frequency" => "weekly",
+            "frequency" => @recurrence_frequency.weekly,
             "days_of_week" => "Sun, Wed"
           },
           last_done_at: ~N"2022-01-09 11:00:00"
@@ -115,7 +117,7 @@ defmodule Dutu.ChoreTest do
         General.create_chore(%{
           title: "some title",
           rrule: %{
-            "frequency" => "daily",
+            "frequency" => @recurrence_frequency.daily,
             "interval" => 3
           },
           last_done_at: ~N"2022-01-08 11:00:00"
@@ -130,7 +132,7 @@ defmodule Dutu.ChoreTest do
         General.create_chore(%{
           title: "some title",
           rrule: %{
-            "frequency" => "daily",
+            "frequency" => @recurrence_frequency.daily,
             "interval" => 3
           },
           last_done_at: ~N"2022-01-08 11:00:00"
@@ -148,7 +150,7 @@ defmodule Dutu.ChoreTest do
         General.create_chore(%{
           title: "some title",
           rrule: %{
-            "frequency" => "weekly",
+            "frequency" => @recurrence_frequency.weekly,
             "days_of_week" => "Sun, Wed"
           },
           last_done_at: ~N"2022-01-09 11:00:00"
@@ -169,7 +171,7 @@ defmodule Dutu.ChoreTest do
         General.create_chore(%{
           title: "some title",
           rrule: %{
-            "frequency" => "weekly",
+            "frequency" => @recurrence_frequency.weekly,
             "days_of_week" => "Sun, Wed"
           },
           last_done_at: ~N"2022-01-09 11:00:00"
