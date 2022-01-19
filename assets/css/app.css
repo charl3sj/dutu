@@ -119,22 +119,22 @@
   100% { opacity: 0; }
 }
 
-.mundanes-list {
+.todays-list {
   list-style: none;
 }
 
-.mundane-item {
+.todays-item {
   background: lemonchiffon;
   width: fit-content;
   padding: 1rem 1.5rem;
   border-radius: 8px;
 }
 
-.mundane-item .title {
+.todays-item .title {
   font-size: 2rem;
 }
 
-.mundane-item .due-when {
+.todays-item .due-when {
   color: #95999c;
   font-size: small;
 }
@@ -160,4 +160,24 @@ input.thin {
   width: 8em;
   margin-left: 8px;
   margin-right: 8px;
+}
+
+#page-title {
+  font-weight: bold;
+}
+
+div.segment {
+  padding: 1em;
+}
+
+div.todays-segment {
+  background: lemonchiffon;
+}
+
+div.segment h3 {
+  color: rebeccapurple;
+}
+
+.todo-due-on {
+  color: lightslategrey;
 }

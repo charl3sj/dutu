@@ -18,9 +18,9 @@
 <%= if !Enum.empty? @todos do %>
   <div class="column column-50">
     <h4>Todos</h4>
-    <ul class="mundanes-list">
+    <ul class="todays-list">
       <%= for todo <- @todos do %>
-      <li class="mundane-item">
+      <li class="todays-item">
         <div class="title"><%= todo.title %></div>
         <div class="due-when">[<%= todo.formatted_date %>]</div>
         <%= live_patch "Done", to: Routes.today_index_path(@socket, :update, :todo, todo.id) %>
@@ -32,9 +32,9 @@
 <%= if !Enum.empty? @chores do %>
   <div class="column column-50">
     <h4>Chores</h4>
-    <ul class="mundanes-list">
+    <ul class="todays-list">
       <%= for chore <- @chores do %>
-      <li class="mundane-item">
+      <li class="todays-item">
         <%= chore.title %>
         <div class="due-when"></div>
         <%= if chore.last_done_at do %>

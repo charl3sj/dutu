@@ -1,5 +1,7 @@
-<h1>Listing Todos</h1>
-
+<h1 id="page-title">To DO</h1>
+<div style="font-size:1.4em; float:right">
+  <%= live_patch "New Todo", to: Routes.todo_index_path(@socket, :new) %>
+</div>
 <%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.todo_index_path(@socket, :index)}>
     <.live_component
@@ -14,30 +16,131 @@
     />
   </.modal>
 <% end %>
-
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Due date</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="todos">
-    <%= for todo <- @todos do %>
-      <tr id={"todo-#{todo.id}"}>
-        <td><%= todo.title %></td>
-        <td><%= todo.formatted_date %></td>
-
-        <td>
-          <span><%= live_redirect "Show", to: Routes.todo_show_path(@socket, :show, todo) %></span>
-          <span><%= live_patch "Edit", to: Routes.todo_index_path(@socket, :edit, todo) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: todo.id, data: [confirm: "Are you sure?"] %></span>
-        </td>
-      </tr>
+<%= if !Enum.empty? @todos.pending do %>
+<div class="segment">
+  <h3>Pending</h3>
+  <ul>
+    <%= for todo <- @todos.pending do %>
+    <li class="todo">
+      <span class="todo-title"><%= todo.title %></span>
+      <span class="todo-due-on"><%= todo.formatted_date %></span>
+      <span class="todo-edit"><%= live_patch "𝌡", to: Routes.todo_index_path(@socket, :edit, todo) %></span>
+    </li>
     <% end %>
-  </tbody>
-</table>
-
-<span><%= live_patch "New Todo", to: Routes.todo_index_path(@socket, :new) %></span>
+  </ul>
+</div>
+<% end %>
+<%= if !Enum.empty? @todos.today do %>
+<div class="segment todays-segment">
+  <h3>Due Today</h3>
+  <ul>
+    <%= for todo <- @todos.today do %>
+    <li class="todo">
+      <span class="todo-title"><%= todo.title %></span>
+      <span class="todo-due-on"><%= todo.formatted_date %></span>
+      <span class="todo-edit"><%= live_patch "𝌡", to: Routes.todo_index_path(@socket, :edit, todo) %></span>
+    </li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+<%= if !Enum.empty? @todos.tomorrow do %>
+<div class="segment">
+  <h3>Tomorrow</h3>
+  <ul>
+    <%= for todo <- @todos.tomorrow do %>
+    <li class="todo">
+      <span class="todo-title"><%= todo.title %></span>
+      <span class="todo-due-on"><%= todo.formatted_date %></span>
+      <span class="todo-edit"><%= live_patch "𝌡", to: Routes.todo_index_path(@socket, :edit, todo) %></span>
+    </li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+<%= if Enum.any?([@todos.this_week, @todos.this_month, @todos.this_quarter, @todos.this_year, @todos.future, @todos.undefined], & Enum.count(&1) >= 1) do %>
+  <h2 style="font-weight: bolder">Later</h2>
+<% end %>
+<%= if !Enum.empty? @todos.this_week do %>
+<div class="segment">
+  <h3>This Week</h3>
+  <ul>
+    <%= for todo <- @todos.this_week do %>
+    <li class="todo">
+      <span class="todo-title"><%= todo.title %></span>
+      <span class="todo-due-on"><%= todo.formatted_date %></span>
+      <span class="todo-edit"><%= live_patch "𝌡", to: Routes.todo_index_path(@socket, :edit, todo) %></span>
+    </li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+<%= if !Enum.empty? @todos.this_month do %>
+<div class="segment">
+  <h3>This Month</h3>
+  <ul>
+    <%= for todo <- @todos.this_month do %>
+    <li class="todo">
+      <span class="todo-title"><%= todo.title %></span>
+      <span class="todo-due-on"><%= todo.formatted_date %></span>
+      <span class="todo-edit"><%= live_patch "𝌡", to: Routes.todo_index_path(@socket, :edit, todo) %></span>
+    </li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+<%= if !Enum.empty? @todos.this_quarter do %>
+<div class="segment">
+  <h3>This Quarter</h3>
+  <ul>
+    <%= for todo <- @todos.this_quarter do %>
+    <li class="todo">
+      <span class="todo-title"><%= todo.title %></span>
+      <span class="todo-due-on"><%= todo.formatted_date %></span>
+      <span class="todo-edit"><%= live_patch "𝌡", to: Routes.todo_index_path(@socket, :edit, todo) %></span>
+    </li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+<%= if !Enum.empty? @todos.this_year do %>
+<div class="segment">
+  <h3>This Year</h3>
+  <ul>
+    <%= for todo <- @todos.this_year do %>
+    <li class="todo">
+      <span class="todo-title"><%= todo.title %></span>
+      <span class="todo-due-on"><%= todo.formatted_date %></span>
+      <span class="todo-edit"><%= live_patch "𝌡", to: Routes.todo_index_path(@socket, :edit, todo) %></span>
+    </li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+<%= if !Enum.empty? @todos.future do %>
+<div class="segment">
+  <h3>Next Year</h3>
+  <ul>
+    <%= for todo <- @todos.future do %>
+    <li class="todo">
+      <span class="todo-title"><%= todo.title %></span>
+      <span class="todo-due-on"><%= todo.formatted_date %></span>
+      <span class="todo-edit"><%= live_patch "𝌡", to: Routes.todo_index_path(@socket, :edit, todo) %></span>
+    </li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+<%= if !Enum.empty? @todos.undefined do %>
+<div class="segment">
+  <h3>Some day</h3>
+  <ul>
+    <%= for todo <- @todos.undefined do %>
+    <li class="todo">
+      <span class="todo-title"><%= todo.title %></span>
+      <span class="todo-edit"><%= live_patch "𝌡", to: Routes.todo_index_path(@socket, :edit, todo) %></span>
+    </li>
+    <% end %>
+  </ul>
+</div>
+<% end %>

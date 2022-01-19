@@ -49,6 +49,54 @@ defmodule DutuWeb.TodoLive.Index do
   end
 
   defp list_todos do
-    General.list_todos()
+    General.list_todos() |> segment_todos()
+  end
+
+  defp segment_todos(todos) do
+    this_years = todos |> General.filter_todos_by_period(:this_year)
+    this_quarters = this_years |> General.filter_todos_by_period(:this_quarter)
+    this_months = this_quarters |> General.filter_todos_by_period(:this_month)
+    this_weeks = this_months |> General.filter_todos_by_period(:this_week)
+    todays = todos |> General.filter_todos_by_period(:today)
+    tomorrows = todos |> General.filter_todos_by_period(:tomorrow)
+    pending = todos |> General.filter_pending_todos()
+    undefined = todos |> General.filter_todos_by_period(:undefined)
+
+    # to avoid overlaps because of approx due dates
+    tomorrows_unique = tomorrows |> Enum.reject(&(&1 in (pending ++ todays)))
+    this_weeks_unique = this_weeks |> Enum.reject(&(&1 in (pending ++ todays ++ tomorrows)))
+
+    this_months_unique =
+      this_months |> Enum.reject(&(&1 in (this_weeks ++ pending ++ todays ++ tomorrows)))
+
+    this_quarters_unique =
+      this_quarters
+      |> Enum.reject(&(&1 in (this_months ++ this_weeks ++ pending ++ todays ++ tomorrows)))
+
+    this_years_unique =
+      this_years
+      |> Enum.reject(
+        &(&1 in (this_quarters ++ this_months ++ this_weeks ++ pending ++ todays ++ tomorrows))
+      )
+
+    future =
+      todos
+      |> Enum.reject(
+        &(&1 in (undefined ++
+                   this_years ++
+                   this_quarters ++ this_months ++ this_weeks ++ pending ++ todays ++ tomorrows))
+      )
+
+    %{
+      pending: pending,
+      today: todays,
+      tomorrow: tomorrows_unique,
+      this_week: this_weeks_unique,
+      this_month: this_months_unique,
+      this_quarter: this_quarters_unique,
+      this_year: this_years_unique,
+      future: future,
+      undefined: undefined
+    }
   end
 end
