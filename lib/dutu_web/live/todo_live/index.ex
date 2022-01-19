@@ -18,10 +18,11 @@ defmodule DutuWeb.TodoLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     todo = General.get_todo!(id)
+
     socket
     |> assign(:page_title, "Edit Todo")
     |> assign(:todo, todo)
-    |> assign(:todo_form, todo |> General.TodoForm.from_todo)
+    |> assign(:todo_form, todo |> General.TodoForm.from_todo())
     |> assign(:due_date_types, @due_date_types)
   end
 

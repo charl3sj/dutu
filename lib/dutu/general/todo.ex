@@ -29,19 +29,43 @@ defmodule Dutu.General.Todo do
   end
 
   def put_formatted_date(%Todo{due_date: nil, approx_due_date: nil} = todo) do
-    Map.put todo, :formatted_date, "undefined"
+    Map.put(todo, :formatted_date, "undefined")
   end
 
-  def put_formatted_date(%Todo{due_date: due_date, approx_due_date: nil} = todo) when due_date != nil do
-    Map.put todo, :formatted_date, "#{due_date |> to_default_format}"
+  def put_formatted_date(%Todo{due_date: due_date, approx_due_date: nil} = todo)
+      when due_date != nil do
+    Map.put(
+      todo,
+      :formatted_date,
+      "#{due_date |> to_default_format}"
+    )
   end
 
-  def put_formatted_date(%Todo{due_date: nil, approx_due_date: approx_due_date, date_attrs: %{"type" => datetype}} = todo) when approx_due_date != nil do
+  def put_formatted_date(
+        %Todo{
+          due_date: nil,
+          approx_due_date: approx_due_date,
+          date_attrs: %{
+            "type" => datetype
+          }
+        } = todo
+      )
+      when approx_due_date != nil do
     [lower, upper] = approx_due_date
+
     cond do
-      datetype == @due_date_types.after -> Map.put todo, :formatted_date, "after #{to_default_format(lower)}"
-      datetype == @due_date_types.before -> Map.put todo, :formatted_date, "before #{to_default_format(upper)}"
-      datetype == @due_date_types.between -> Map.put todo, :formatted_date, "between #{to_default_format(lower)} and #{to_default_format(upper)}"
+      datetype == @due_date_types.after ->
+        Map.put(todo, :formatted_date, "after #{to_default_format(lower)}")
+
+      datetype == @due_date_types.before ->
+        Map.put(todo, :formatted_date, "before #{to_default_format(upper)}")
+
+      datetype == @due_date_types.between ->
+        Map.put(
+          todo,
+          :formatted_date,
+          "between #{to_default_format(lower)} and #{to_default_format(upper)}"
+        )
     end
   end
 
@@ -55,15 +79,24 @@ defmodule Dutu.General.Todo do
   @spec due_on_date?(todo :: Todo, some_date :: Date) :: boolean
   def due_on_date?(todo, some_date) do
     cond do
-      todo.due_date == nil and todo.approx_due_date ==  nil -> false
+      todo.due_date == nil and todo.approx_due_date == nil ->
+        false
 
-      todo.due_date != nil -> some_date == todo.due_date
+      todo.due_date != nil ->
+        some_date == todo.due_date
 
-      todo.approx_due_date != nil -> case todo.approx_due_date do
-                                       [nil, upper] -> some_date <= upper
-                                       [lower, nil] -> some_date >= (lower)
-                                       [lower, upper] -> some_date |> between?(lower, upper, inclusive: true)
-                                     end
+      todo.approx_due_date != nil ->
+        case todo.approx_due_date do
+          [nil, upper] ->
+            some_date <= upper
+
+          [lower, nil] ->
+            some_date >= lower
+
+          [lower, upper] ->
+            some_date
+            |> between?(lower, upper, inclusive: true)
+        end
     end
   end
 
@@ -74,17 +107,30 @@ defmodule Dutu.General.Todo do
   @spec due_between?(todo :: Todo, start :: Date, ending :: Date) :: boolean
   def due_between?(todo, start, ending) do
     cond do
-      todo.due_date == nil and todo.approx_due_date ==  nil -> false
+      todo.due_date == nil and todo.approx_due_date == nil ->
+        false
+
       todo.due_date == nil ->
         case todo.approx_due_date do
-          [nil, upper] -> (ending |> before?(upper))
-                          or upper |> between?(start, ending, inclusive: true)
-          [lower, nil] -> (start |> after?(lower))
-                          or lower |> between?(start, ending, inclusive: true)
-          [lower, upper] -> between?(lower, start, ending, inclusive: true)
-                            or between?(upper, start, ending, inclusive: true)
+          [nil, upper] ->
+            ending
+            |> before?(upper) or
+              upper
+              |> between?(start, ending, inclusive: true)
+
+          [lower, nil] ->
+            start
+            |> after?(lower) or
+              lower
+              |> between?(start, ending, inclusive: true)
+
+          [lower, upper] ->
+            between?(lower, start, ending, inclusive: true) or
+              between?(upper, start, ending, inclusive: true)
         end
-      todo.approx_due_date == nil -> between?(todo.due_date, start, ending, inclusive: true)
+
+      todo.approx_due_date == nil ->
+        between?(todo.due_date, start, ending, inclusive: true)
     end
   end
 
@@ -94,14 +140,24 @@ defmodule Dutu.General.Todo do
   @spec due_before?(todo :: Todo, some_date :: Date) :: boolean
   def due_before?(todo, some_date) do
     cond do
-      todo.due_date == nil and todo.approx_due_date ==  nil -> false
+      todo.due_date == nil and todo.approx_due_date == nil ->
+        false
+
       todo.due_date == nil ->
         case todo.approx_due_date do
-          [nil, upper] -> upper |> before?(some_date)
-          [_lower, nil] -> false
-          [lower, upper] -> before?(lower, some_date) and before?(upper, some_date)
+          [nil, upper] ->
+            upper
+            |> before?(some_date)
+
+          [_lower, nil] ->
+            false
+
+          [lower, upper] ->
+            before?(lower, some_date) and before?(upper, some_date)
         end
-      todo.approx_due_date == nil -> before?(todo.due_date, some_date)
+
+      todo.approx_due_date == nil ->
+        before?(todo.due_date, some_date)
     end
   end
 
@@ -109,14 +165,41 @@ defmodule Dutu.General.Todo do
 
   def due_tomorrow?(todo), do: due_on_date?(todo, tomorrow())
 
-  def due_this_week?(todo), do: due_between?(todo, start_of_this_week(), start_of_this_week() |> end_of_week)
+  def due_this_week?(todo),
+    do:
+      due_between?(
+        todo,
+        start_of_this_week(),
+        start_of_this_week()
+        |> end_of_week
+      )
 
-  def due_this_month?(todo), do: due_between?(todo, start_of_this_month(), start_of_this_month() |> end_of_month)
+  def due_this_month?(todo),
+    do:
+      due_between?(
+        todo,
+        start_of_this_month(),
+        start_of_this_month()
+        |> end_of_month
+      )
 
-  def due_this_quarter?(todo), do: due_between?(todo, start_of_this_quarter(), start_of_this_quarter() |> end_of_quarter)
+  def due_this_quarter?(todo),
+    do:
+      due_between?(
+        todo,
+        start_of_this_quarter(),
+        start_of_this_quarter()
+        |> end_of_quarter
+      )
 
-  def due_this_year?(todo), do: due_between?(todo, start_of_this_year(), start_of_this_year() |> end_of_year)
+  def due_this_year?(todo),
+    do:
+      due_between?(
+        todo,
+        start_of_this_year(),
+        start_of_this_year()
+        |> end_of_year
+      )
 
   def due_date_undefined?(todo), do: todo.due_date == nil and todo.approx_due_date == nil
-
 end

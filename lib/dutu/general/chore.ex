@@ -20,6 +20,7 @@ defmodule Dutu.General.Chore do
 
   def recurs_on_date?(chore, date) do
     last_done_at = chore.last_done_at
+
     if chore.rrule["frequency"] == "daily" do
       if last_done_at do
         Timex.equal?(date, Date.add(last_done_at, chore.rrule["interval"]))
@@ -33,6 +34,7 @@ defmodule Dutu.General.Chore do
 
   def due_on_date?(chore, as_of_date) do
     last_done_at = chore.last_done_at
+
     if chore.rrule["frequency"] == "daily" do
       if last_done_at do
         due_date = Date.add(last_done_at, chore.rrule["interval"])
@@ -41,8 +43,8 @@ defmodule Dutu.General.Chore do
         true
       end
     else
-      chore.rrule["days_of_week"] =~ Calendar.strftime(as_of_date, "%a")
-      and if last_done_at, do: Timex.before?(last_done_at, as_of_date), else: true
+      chore.rrule["days_of_week"] =~ Calendar.strftime(as_of_date, "%a") and
+        if last_done_at, do: Timex.before?(last_done_at, as_of_date), else: true
     end
   end
 end

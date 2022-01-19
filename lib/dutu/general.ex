@@ -20,7 +20,7 @@ defmodule Dutu.General do
 
   def list_todos do
     Repo.all(from t in Todo, where: t.is_done == false)
-    |> Enum.map(& fill_todo_virtual_fields &1)
+    |> Enum.map(&fill_todo_virtual_fields(&1))
   end
 
   def get_todo!(id) do
@@ -42,6 +42,7 @@ defmodule Dutu.General do
 
   def mark_todo_as_done(%Todo{} = todo) do
     attrs = %{is_done: true, done_at: Timex.now("Asia/Calcutta")}
+
     todo
     |> Todo.changeset(attrs)
     |> Repo.update()
@@ -61,18 +62,18 @@ defmodule Dutu.General do
 
   def filter_todos_by_period(todos, period) do
     case period do
-      :today -> todos |> Enum.filter(& Todo.due_today? &1)
-      :tomorrow -> todos |> Enum.filter(& Todo.due_tomorrow? &1)
-      :this_week -> todos |> Enum.filter(& Todo.due_this_week? &1)
-      :this_month -> todos |> Enum.filter(& Todo.due_this_month? &1)
-      :this_quarter -> todos |> Enum.filter(& Todo.due_this_quarter? &1)
-      :this_year -> todos |> Enum.filter(& Todo.due_this_year? &1)
-      :undefined -> todos |> Enum.filter(& Todo.due_date_undefined? &1)
+      :today -> todos |> Enum.filter(&Todo.due_today?(&1))
+      :tomorrow -> todos |> Enum.filter(&Todo.due_tomorrow?(&1))
+      :this_week -> todos |> Enum.filter(&Todo.due_this_week?(&1))
+      :this_month -> todos |> Enum.filter(&Todo.due_this_month?(&1))
+      :this_quarter -> todos |> Enum.filter(&Todo.due_this_quarter?(&1))
+      :this_year -> todos |> Enum.filter(&Todo.due_this_year?(&1))
+      :undefined -> todos |> Enum.filter(&Todo.due_date_undefined?(&1))
     end
   end
 
   def filter_pending_todos(todos) do
-    todos |> Enum.filter(& Todo.due_before?(&1, Timex.today("Asia/Calcutta")))
+    todos |> Enum.filter(&Todo.due_before?(&1, Timex.today("Asia/Calcutta")))
   end
 
   alias Dutu.General.Chore
@@ -112,9 +113,12 @@ defmodule Dutu.General do
     ChoreForm.changeset(form, attrs)
   end
 
-  def filter_chores_by_frequency(chores, :daily), do: chores |> Enum.filter(& Chore.recurs_every_x_days? &1)
-  def filter_chores_by_frequency(chores, :weekly), do: chores |> Enum.filter(& Chore.recurs_every_week? &1)
+  def filter_chores_by_frequency(chores, :daily),
+    do: chores |> Enum.filter(&Chore.recurs_every_x_days?(&1))
 
-  def filter_chores_due_today(chores), do: Enum.filter(chores, & Chore.due_on_date?(&1, Timex.today()))
+  def filter_chores_by_frequency(chores, :weekly),
+    do: chores |> Enum.filter(&Chore.recurs_every_week?(&1))
 
+  def filter_chores_due_today(chores),
+    do: Enum.filter(chores, &Chore.due_on_date?(&1, Timex.today()))
 end

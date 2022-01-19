@@ -10,9 +10,15 @@ defmodule Dutu.Repo.Migrations.CreateTodos do
       add :is_done, :boolean, default: false
       add :done_at, :naive_datetime
     end
+
     create constraint("todos", :due_date_and_approx_due_date_dont_occur_together,
-             check: "(due_date IS NULL) != (approx_due_date IS NULL) OR ((due_date IS NULL) AND (approx_due_date IS NULL))")
+             check:
+               "(due_date IS NULL) != (approx_due_date IS NULL) OR ((due_date IS NULL) AND (approx_due_date IS NULL))"
+           )
+
     create constraint("todos", :approx_due_date_must_have_date_attrs,
-             check: "((approx_due_date IS NOT NULL) = (date_attrs IS NOT NULL)) OR (due_date IS NOT NULL)")
+             check:
+               "((approx_due_date IS NOT NULL) = (date_attrs IS NOT NULL)) OR (due_date IS NOT NULL)"
+           )
   end
 end
