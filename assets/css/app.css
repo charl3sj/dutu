@@ -139,7 +139,7 @@
   font-size: small;
 }
 
-input.pickr-txt {
+input.pickr-input {
   width: 80px;
   height: 2.6rem;
   margin-left: 8px;
@@ -175,9 +175,13 @@ div.todays-segment {
 }
 
 div.segment h3 {
-  color: rebeccapurple;
+  color: sienna;
 }
 
 .todo-due-on {
   color: lightslategrey;
+}
+
+.todo-edit a {
+  color: steelblue;
 }

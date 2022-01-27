@@ -2,38 +2,32 @@
   <h2><%= @title %></h2>
   <.form id="todo-form" let={f} for={@changeset} phx-target={@myself} phx-change="validate" phx-submit="save">
     <div id="title-fields">
-      <%= label f, :title %>
+      <%= label f, :title, "Do what?" %>
       <span class="input-error-combo">
-        <%= textarea f, :title, [style: "width: 500px"] %>
+        <%= text_input f, :title %>
         <%= error_tag f, :title %>
       </span>
     </div>
     <hr/>
     <div class="row">
       <div class="column">
-        <script type="text/javascript">
-            function selectClosestDatetype(el) {
-                let closestDateType = el.closest('.due-date-option').firstElementChild
-                closestDateType.checked = true
-            }
-        </script>
         <div id="due-date-select">
-          <label>Do when?</label>&nbsp;<%= error_tag f, :date_type %>
-          <div class="due-date-option">
+          <label>When?</label>&nbsp;<%= error_tag f, :date_type %>
+          <div class="due-date-option input-group">
             <%= radio_button f, :date_type, @due_date_types.on, [id: "exact-type"] %>
             on <span class="input_error_combo">
-                  <%= text_input f, :due_date, [class: "pickr-txt mgn-lr-8", "phx-hook": "datePicker", "data-input": "", onchange: "selectClosestDatetype(this)"] %>
+                  <%= text_input f, :due_date, [class: "pickr-input when-input", "phx-hook": "datePicker", "data-input": "", onchange: "selectInputGroup(this)"] %>
                   <%= error_tag f, :due_date %>
                </span>
           </div>
-          <div class="due-date-option">
+          <div class="due-date-option input-group">
             <%= radio_button f, :date_type, @due_date_types.between, [id: "daterange-type"] %>
             between <span class="input-error-combo">
-                      <%= text_input f, :start_date, [class: "pickr-txt", "phx-hook": "datePicker", "data-input": "", onchange: "selectClosestDatetype(this)"] %>
+                      <%= text_input f, :start_date, [class: "pickr-input when-input", "phx-hook": "datePicker", "data-input": "", onchange: "selectInputGroup(this)"] %>
                       <%= error_tag f, :start_date %>
                     </span>
             and <span class="input-error-combo">
-                  <%= text_input f, :end_date, [class: "pickr-txt", "phx-hook": "datePicker", "data-input": "", onchange: "selectClosestDatetype(this)"] %>
+                  <%= text_input f, :end_date, [class: "pickr-input when-input", "phx-hook": "datePicker", "data-input": "", onchange: "selectInputGroup(this)"] %>
                   <%= error_tag f, :end_date %>
                 </span>
           </div>
