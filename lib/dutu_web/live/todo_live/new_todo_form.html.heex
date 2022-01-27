@@ -3,7 +3,7 @@
   <.form id="todo-form" let={f} for={@changeset} phx-target={@myself} phx-change="validate" phx-submit="save">
     <div id="title-fields">
       <%= label f, :title, "Do what?" %>
-      <span class="input-error-combo">
+      <span class="input-error-combo" style="width: 100%">
         <%= text_input f, :title %>
         <%= error_tag f, :title %>
       </span>

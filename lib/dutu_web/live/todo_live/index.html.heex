@@ -59,7 +59,7 @@
 </div>
 <% end %>
 <%= if Enum.any?([@todos.this_week, @todos.this_month, @todos.this_quarter, @todos.this_year, @todos.future, @todos.undefined], & Enum.count(&1) >= 1) do %>
-  <h2 style="font-weight: bolder">Later</h2>
+  <h2 style="font-weight: bolder; margin-top: 1em">Later</h2>
 <% end %>
 <%= if !Enum.empty? @todos.this_week do %>
 <div class="segment">

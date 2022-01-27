@@ -16,6 +16,30 @@ defmodule Dutu.General.ChoreForm do
     form
     |> cast(attrs, [:title, :frequency, :interval, :days_of_week])
     |> validate_required([:title, :frequency])
+    |> validate_interval_required_if_daily
+    |> validate_days_of_week_required_if_weekly
+  end
+
+  defp validate_interval_required_if_daily(changeset) do
+    interval = get_field(changeset, :interval)
+
+    if get_field(changeset, :frequency) == @recurrence_frequency.daily and
+         (!interval or interval == "") do
+      add_error(changeset, :interval, "is required", validation: :required)
+    else
+      changeset
+    end
+  end
+
+  defp validate_days_of_week_required_if_weekly(changeset) do
+    days_of_week = get_field(changeset, :days_of_week)
+
+    if get_field(changeset, :frequency) == @recurrence_frequency.weekly and
+         (!days_of_week or days_of_week == "") do
+      add_error(changeset, :days_of_week, "is required", validation: :required)
+    else
+      changeset
+    end
   end
 
   @spec to_chore_params(form :: ChoreForm) :: :map

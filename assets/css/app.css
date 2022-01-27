@@ -182,6 +182,11 @@ div.segment h3 {
   color: lightslategrey;
 }
 
-.todo-edit a {
+.todo-edit a, .chore-edit a {
   color: steelblue;
+}
+
+.input-error-combo {
+  display: inline-flex;
+  flex-direction: column;
 }

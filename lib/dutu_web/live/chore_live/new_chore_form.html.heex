@@ -3,7 +3,7 @@
   <.form id="chore-form" let={f} for={@changeset} phx-target={@myself} phx-change="validate" phx-submit="save">
     <div id="title-fields">
       <%= label f, :title, "Do what?" %>
-      <span class="input-error-combo">
+      <span class="input-error-combo" style="width: 100%">
         <%= text_input f, :title %>
         <%= error_tag f, :title %>
       </span>
@@ -16,7 +16,7 @@
           <div class="recurrence-option input-group">
             <%= radio_button f, :frequency, @recurrence_frequency.daily, [id: "every-x-days-option"] %>
             every
-              <span class="input_error_combo">
+              <span class="input-error-combo">
                   <%= number_input f, :interval, [class: "thin when-input", onfocus: "selectInputGroup(this)"] %>
                   <%= error_tag f, :interval %>
               </span>
