@@ -17,4 +17,18 @@ defmodule Dutu.DietTrackerFixtures do
 
     category
   end
+
+  @doc """
+  Generate a food.
+  """
+  def food_fixture(attrs \\ %{}) do
+    {:ok, food} =
+      attrs
+      |> Enum.into(%{
+        name: "some name"
+      })
+      |> Dutu.DietTracker.create_food()
+
+    food
+  end
 end

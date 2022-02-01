@@ -5,5 +5,7 @@ defmodule Dutu.Repo.Migrations.CreateCategories do
     create table(:categories) do
       add :name, :string, null: false
     end
+
+    create unique_index(:categories, [:name])
   end
 end

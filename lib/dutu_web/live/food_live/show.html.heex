@@ -1,0 +1,26 @@
+<h1>Show Food</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.food_show_path(@socket, :show, @food)}>
+    <.live_component
+      module={DutuWeb.FoodLive.FormComponent}
+      id={@food.id}
+      title={@page_title}
+      action={@live_action}
+      food={@food}
+      return_to={Routes.food_show_path(@socket, :show, @food)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @food.name %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.food_show_path(@socket, :edit, @food), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.food_index_path(@socket, :index) %></span>

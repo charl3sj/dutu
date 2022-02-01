@@ -1,0 +1,39 @@
+<h1>Listing Foods</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.food_index_path(@socket, :index)}>
+    <.live_component
+      module={DutuWeb.FoodLive.FormComponent}
+      id={@food.id || :new}
+      title={@page_title}
+      action={@live_action}
+      food={@food}
+      return_to={Routes.food_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="foods">
+    <%= for food <- @foods do %>
+      <tr id={"food-#{food.id}"}>
+        <td><%= food.name %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.food_show_path(@socket, :show, food) %></span>
+          <span><%= live_patch "Edit", to: Routes.food_index_path(@socket, :edit, food) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: food.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Food", to: Routes.food_index_path(@socket, :new) %></span>

@@ -33,4 +33,32 @@ defmodule Dutu.DietTracker do
   def change_category(%Category{} = category, attrs \\ %{}) do
     Category.changeset(category, attrs)
   end
+
+  alias Dutu.DietTracker.Food
+
+  def list_foods do
+    Repo.all(Food)
+  end
+
+  def get_food!(id), do: Repo.get!(Food, id)
+
+  def create_food(attrs \\ %{}) do
+    %Food{}
+    |> Food.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def update_food(%Food{} = food, attrs) do
+    food
+    |> Food.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def delete_food(%Food{} = food) do
+    Repo.delete(food)
+  end
+
+  def change_food(%Food{} = food, attrs \\ %{}) do
+    Food.changeset(food, attrs)
+  end
 end
