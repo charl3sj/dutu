@@ -44,14 +44,12 @@ defmodule Dutu.DietTracker.Quota.Limit do
     per_week = get_field(changeset, :per_week)
     per_month = get_field(changeset, :per_month)
 
-    cond do
-      per_week != nil && per_month != nil && per_week > per_month ->
-        add_error(changeset, :per_week, "cannot be greater than monthly limit",
-          validation: :invalid
-        )
-
-      true ->
-        changeset
+    if per_week != nil && per_month != nil && per_week > per_month do
+      add_error(changeset, :per_week, "cannot be greater than monthly limit",
+        validation: :invalid
+      )
+    else
+      changeset
     end
   end
 end
