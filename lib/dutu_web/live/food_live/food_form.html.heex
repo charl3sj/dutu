@@ -24,18 +24,18 @@
                 <h5>At least</h5>
                 <div class="input-error-combo">
                   <%= label fmin, :per_day %>
-                  <%= number_input fmin, :per_day, [class: "thin"] %>
+                  <%= number_input fmin, :per_day, [min: 1, class: "thin"] %>
                   <%= error_tag fmin, :per_day %>
                 </div>
                 <div class="input-error-combo">
                   <%= label fmin, :per_week %>
-                  <%= number_input fmin, :per_week, [class: "thin"] %>
+                  <%= number_input fmin, :per_week, [min: 1, class: "thin"] %>
                   <%= error_tag fmin, :per_week %>
                 </div>
                 <div class="input-error-combo">
-                  <%= label fmin, :per_2_weeks %>
-                  <%= number_input fmin, :per_2_weeks, [class: "thin"] %>
-                  <%= error_tag fmin, :per_2_weeks %>
+                  <%= label fmin, :per_month %>
+                  <%= number_input fmin, :per_month, [min: 1, class: "thin"] %>
+                  <%= error_tag fmin, :per_month %>
                 </div>
                 <%= error_tag fq, :min %>
               <% end %>
@@ -45,18 +45,18 @@
                 <h5>At most</h5>
                 <div class="input-error-combo">
                   <%= label fmax, :per_day %>
-                  <%= number_input fmax, :per_day, [class: "thin"] %>
+                  <%= number_input fmax, :per_day, [min: 1, class: "thin"] %>
                   <%= error_tag fmax, :per_day %>
                 </div>
                 <div class="input-error-combo">
                   <%= label fmax, :per_week %>
-                  <%= number_input fmax, :per_week, [class: "thin"] %>
+                  <%= number_input fmax, :per_week, [min: 1, class: "thin"] %>
                   <%= error_tag fmax, :per_week %>
                 </div>
                 <div class="input-error-combo">
-                  <%= label fmax, :per_2_weeks %>
-                  <%= number_input fmax, :per_2_weeks, [class: "thin"] %>
-                  <%= error_tag fmax, :per_2_weeks %>
+                  <%= label fmax, :per_month %>
+                  <%= number_input fmax, :per_month, [min: 1, class: "thin"] %>
+                  <%= error_tag fmax, :per_month %>
                 </div>
                 <%= error_tag fq, :max %>
               <% end %>

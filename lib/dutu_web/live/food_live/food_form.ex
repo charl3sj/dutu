@@ -20,7 +20,6 @@ defmodule DutuWeb.FoodLive.FoodForm do
       |> DietTracker.change_food(food_params)
       |> Map.put(:action, :validate)
 
-    IO.inspect(changeset)
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
