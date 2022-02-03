@@ -4,7 +4,7 @@
   <.form
     let={f}
     for={@changeset}
-    id="food-form"
+    id="category-form"
     phx-target={@myself}
     phx-change="validate"
     phx-submit="save">
@@ -12,9 +12,12 @@
     <%= label f, :name %>
     <%= text_input f, :name %>
     <%= error_tag f, :name %>
-  
+
     <div>
       <%= submit "Save", phx_disable_with: "Saving..." %>
+      <%= if @action == :edit_category do %>
+        <span><%= link "Delete", to: Routes.food_index_path(@socket, :index), phx_click: "delete-category", phx_value_id: @id, data: [confirm: "Are you sure?"] %></span>
+      <% end %>
     </div>
   </.form>
 </div>

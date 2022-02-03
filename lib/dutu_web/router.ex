@@ -25,6 +25,11 @@ defmodule DutuWeb.Router do
     live "/chores", ChoreLive.Index, :index
     live "/chores/new", ChoreLive.Index, :new
     live "/chores/:id/edit", ChoreLive.Index, :edit
+    live "/foods", FoodLive.Index, :index
+    live "/foods/new", FoodLive.Index, :new
+    live "/foods/:id/edit", FoodLive.Index, :edit
+    live "/foods/category/new", FoodLive.Index, :new_category
+    live "/foods/category/:id/edit", FoodLive.Index, :edit_category
   end
 
   # Other scopes may use custom stacks.

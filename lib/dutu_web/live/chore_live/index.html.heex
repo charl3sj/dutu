@@ -5,7 +5,7 @@
 <%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.chore_index_path(@socket, :index)}>
     <.live_component
-      module={DutuWeb.ChoreLive.NewChoreForm}
+      module={DutuWeb.ChoreLive.ChoreForm}
       id={@chore.id || :new}
       title={@page_title}
       action={@live_action}

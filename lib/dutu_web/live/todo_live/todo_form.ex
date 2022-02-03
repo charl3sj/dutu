@@ -1,4 +1,4 @@
-defmodule DutuWeb.TodoLive.NewTodoForm do
+defmodule DutuWeb.TodoLive.TodoForm do
   use DutuWeb, :live_component
 
   alias Dutu.General

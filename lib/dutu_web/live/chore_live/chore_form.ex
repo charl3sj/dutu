@@ -1,4 +1,4 @@
-defmodule DutuWeb.ChoreLive.NewChoreForm do
+defmodule DutuWeb.ChoreLive.ChoreForm do
   use DutuWeb, :live_component
 
   alias Dutu.General

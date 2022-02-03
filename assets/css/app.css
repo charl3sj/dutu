@@ -190,3 +190,32 @@ div.segment h3 {
   display: inline-flex;
   flex-direction: column;
 }
+
+.food-category-block {
+  margin-bottom: 1em;
+  border-bottom: 1px solid #eeeeee;
+  padding: 1em 0;
+}
+
+.food-category-block:last-of-type {
+  margin-bottom: 1em;
+  border-bottom: none;
+}
+
+.food-name {
+  margin-right: 0.5em;
+}
+
+.food-name a {
+  color: steelblue;
+}
+
+.quota-row {
+  border: 1px solid #f3f3f3;
+  border-radius: 4px;
+  padding: 1em;
+}
+
+#quota-input label {
+  font-weight: lighter;
+}

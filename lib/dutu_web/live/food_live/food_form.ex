@@ -1,4 +1,4 @@
-defmodule DutuWeb.FoodLive.FormComponent do
+defmodule DutuWeb.FoodLive.FoodForm do
   use DutuWeb, :live_component
 
   alias Dutu.DietTracker
@@ -20,6 +20,7 @@ defmodule DutuWeb.FoodLive.FormComponent do
       |> DietTracker.change_food(food_params)
       |> Map.put(:action, :validate)
 
+    IO.inspect(changeset)
     {:noreply, assign(socket, :changeset, changeset)}
   end
 

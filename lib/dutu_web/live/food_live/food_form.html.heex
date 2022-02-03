@@ -1,0 +1,75 @@
+<div class="container">
+  <h2><%= @title %></h2>
+  <.form id="food-form" let={f} for={@changeset} phx-target={@myself} phx-change="validate" phx-submit="save">
+    <div class="row">
+      <div class="column">
+        <%= label f, :name %>
+        <span class="input-error-combo" style="width: 100%">
+          <%= text_input f, :name %>
+          <%= error_tag f, :name %>
+        </span>
+        <%= label f, :category_id %>
+        <span class="input-error-combo" style="width: 100%">
+          <%= select f, :category_id, Enum.map(@categories, &{&1.name, &1.id}) %>
+          <%= error_tag f, :category_id %>
+        </span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column">
+        <div id="quota-input">
+          <%= inputs_for f, :quota, fn fq -> %>
+            <div id="at-least" class="quota-row">
+              <%= inputs_for fq, :min, fn fmin -> %>
+                <h5>At least</h5>
+                <div class="input-error-combo">
+                  <%= label fmin, :per_day %>
+                  <%= number_input fmin, :per_day, [class: "thin"] %>
+                  <%= error_tag fmin, :per_day %>
+                </div>
+                <div class="input-error-combo">
+                  <%= label fmin, :per_week %>
+                  <%= number_input fmin, :per_week, [class: "thin"] %>
+                  <%= error_tag fmin, :per_week %>
+                </div>
+                <div class="input-error-combo">
+                  <%= label fmin, :per_2_weeks %>
+                  <%= number_input fmin, :per_2_weeks, [class: "thin"] %>
+                  <%= error_tag fmin, :per_2_weeks %>
+                </div>
+                <%= error_tag fq, :min %>
+              <% end %>
+            </div>
+            <div id="at-most" class="quota-row">
+              <%= inputs_for fq, :max, fn fmax -> %>
+                <h5>At most</h5>
+                <div class="input-error-combo">
+                  <%= label fmax, :per_day %>
+                  <%= number_input fmax, :per_day, [class: "thin"] %>
+                  <%= error_tag fmax, :per_day %>
+                </div>
+                <div class="input-error-combo">
+                  <%= label fmax, :per_week %>
+                  <%= number_input fmax, :per_week, [class: "thin"] %>
+                  <%= error_tag fmax, :per_week %>
+                </div>
+                <div class="input-error-combo">
+                  <%= label fmax, :per_2_weeks %>
+                  <%= number_input fmax, :per_2_weeks, [class: "thin"] %>
+                  <%= error_tag fmax, :per_2_weeks %>
+                </div>
+                <%= error_tag fq, :max %>
+              <% end %>
+            </div>
+            <%= error_tag f, :quota %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <br/>
+    <%= submit "Save", phx_disable_with: "Saving..." %>
+    <%= if @action == :edit do %>
+      <span><%= link "Delete", to: Routes.food_index_path(@socket, :index), phx_click: "delete", phx_value_id: @id, data: [confirm: "Are you sure?"] %></span>
+    <% end %>
+  </.form>
+</div>

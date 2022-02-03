@@ -63,7 +63,9 @@ defmodule Dutu.DietTrackerTest do
 
     test "list_foods/0 returns all foods" do
       food = food_fixture()
-      assert DietTracker.list_foods() == [food]
+
+      assert DietTracker.list_foods()
+             |> Enum.map(&Map.delete(&1, :category)) == [Map.delete(food, :category)]
     end
 
     test "get_food!/1 returns the food with given id" do
@@ -72,13 +74,6 @@ defmodule Dutu.DietTrackerTest do
     end
 
     test "create_food/1 with valid data creates a food" do
-      valid_attrs = %{name: "some name"}
-
-      assert {:ok, %Food{} = food} = DietTracker.create_food(valid_attrs)
-      assert food.name == "some name"
-    end
-
-    test "create_food/1 with associated category creates a food" do
       category = category_fixture()
       valid_attrs = %{name: "some name", category_id: category.id}
 

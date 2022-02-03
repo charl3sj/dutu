@@ -22,7 +22,8 @@ categorized_foods = %{
     "Quinoa",
     "Oats",
     "Semolina",
-    "Millet"
+    "Millet",
+    "[Other Grain]"
   ],
   "Veggies" => [
     "Spinach",
@@ -39,14 +40,14 @@ categorized_foods = %{
     "Yam",
     "Tapioca",
     "Sweet Potato",
-    "[Other]"
+    "[Other Veggie]"
   ],
   "Fruit/Nut" => [
     "Avocado",
     "Apple",
     "Banana/Plantain",
     "Orange",
-    "[Seasonal]",
+    "[Seasonal Fruit]",
     "Pomegranate",
     "Walnut",
     "Cashew",
@@ -62,7 +63,7 @@ categorized_foods = %{
     "Peanuts",
     "Urad dal"
   ],
-  "Animal Protein" => ["Fish", "Chicken", "Egg", "Beef", "Mutton", "[Seafood]"],
+  "Animal Protein" => ["Fish", "Chicken", "Egg", "Beef", "Mutton", "Pork", "[Other Seafood]"],
   "Limit/Avoid" => []
 }
 

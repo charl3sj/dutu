@@ -37,7 +37,8 @@ defmodule Dutu.DietTracker do
   alias Dutu.DietTracker.Food
 
   def list_foods do
-    Repo.all(Food)
+    Repo.all(from f in Food, order_by: [f.category_id, f.name])
+    |> Repo.preload(:category)
   end
 
   def get_food!(id), do: Repo.get!(Food, id)

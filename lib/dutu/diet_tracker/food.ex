@@ -13,7 +13,7 @@ defmodule Dutu.DietTracker.Food do
   def changeset(food, attrs) do
     food
     |> cast(attrs, [:name, :category_id])
-    |> validate_required([:name])
+    |> validate_required([:name, :category_id])
     |> cast_embed(:quota)
   end
 end
