@@ -31,12 +31,12 @@ defmodule DutuWeb.TodoLive.TodoForm do
       |> General.change_todo_form(form_params)
       |> Map.put(:action, :insert)
 
-    if !form_changeset.valid? do
-      {:noreply, assign(socket, :changeset, form_changeset)}
-    else
+    if form_changeset.valid? do
       todo_form = Ecto.Changeset.apply_changes(form_changeset)
       todo_params = TodoForm.to_todo_params(todo_form)
       save_todo(socket, socket.assigns.action, todo_params)
+    else
+      {:noreply, assign(socket, :changeset, form_changeset)}
     end
   end
 

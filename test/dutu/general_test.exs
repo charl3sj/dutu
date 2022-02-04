@@ -73,10 +73,10 @@ defmodule Dutu.GeneralTest do
   describe "todos" do
     @invalid_attrs %{title: nil}
 
-    #    test "list_todos/0 returns all todos" do
-    #      todo = todo_fixture()
-    #      assert General.list_all_todos() == [todo |> Todo.put_formatted_date]
-    #    end
+    test "list_todos/0 returns all todos" do
+      todo = todo_fixture()
+      assert General.list_all_todos() == [Map.put(todo, :formatted_date, nil)]
+    end
 
     test "get_todo!/1 returns the todo with given id" do
       todo = todo_fixture()

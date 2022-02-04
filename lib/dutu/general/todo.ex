@@ -77,60 +77,61 @@ defmodule Dutu.General.Todo do
     - `some date` is __any__ date after lower bound
   """
   @spec due_on_date?(todo :: Todo, some_date :: Date) :: boolean
-  def due_on_date?(todo, some_date) do
-    cond do
-      todo.due_date == nil and todo.approx_due_date == nil ->
-        false
+  def due_on_date?(%{due_date: due_date, approx_due_date: approx_due_date} = _todo, _)
+      when due_date == nil and approx_due_date == nil do
+    false
+  end
 
-      todo.due_date != nil ->
-        some_date == todo.due_date
+  def due_on_date?(%{due_date: due_date} = _todo, some_date) when due_date != nil do
+    some_date == due_date
+  end
 
-      todo.approx_due_date != nil ->
-        case todo.approx_due_date do
-          [nil, upper] ->
-            some_date <= upper
+  def due_on_date?(%{approx_due_date: approx_due_date} = _todo, some_date)
+      when approx_due_date != nil do
+    case approx_due_date do
+      [nil, upper] ->
+        some_date <= upper
 
-          [lower, nil] ->
-            some_date >= lower
+      [lower, nil] ->
+        some_date >= lower
 
-          [lower, upper] ->
-            some_date
-            |> between?(lower, upper, inclusive: true)
-        end
+      [lower, upper] ->
+        some_date
+        |> between?(lower, upper, inclusive: true)
     end
   end
 
   @doc """
-  Returns a boolean indicating whether `todo` is due
-  in the period between `from_date` and `to_date`
+  Returns a boolean indicating whether `todo` is due in the period between `start` and `ending`
   """
   @spec due_between?(todo :: Todo, start :: Date, ending :: Date) :: boolean
-  def due_between?(todo, start, ending) do
-    cond do
-      todo.due_date == nil and todo.approx_due_date == nil ->
-        false
+  def due_between?(%{due_date: due_date, approx_due_date: approx_due_date} = _todo, _, _)
+      when due_date == nil and approx_due_date == nil do
+    false
+  end
 
-      todo.due_date == nil ->
-        case todo.approx_due_date do
-          [nil, upper] ->
-            ending
-            |> before?(upper) or
-              upper
-              |> between?(start, ending, inclusive: true)
+  def due_between?(%{due_date: due_date} = _todo, start, ending) when due_date != nil do
+    between?(due_date, start, ending, inclusive: true)
+  end
 
-          [lower, nil] ->
-            start
-            |> after?(lower) or
-              lower
-              |> between?(start, ending, inclusive: true)
+  def due_between?(%{approx_due_date: approx_due_date} = _todo, start, ending)
+      when approx_due_date != nil do
+    case approx_due_date do
+      [nil, upper] ->
+        ending
+        |> before?(upper) or
+          upper
+          |> between?(start, ending, inclusive: true)
 
-          [lower, upper] ->
-            between?(lower, start, ending, inclusive: true) or
-              between?(upper, start, ending, inclusive: true)
-        end
+      [lower, nil] ->
+        start
+        |> after?(lower) or
+          lower
+          |> between?(start, ending, inclusive: true)
 
-      todo.approx_due_date == nil ->
-        between?(todo.due_date, start, ending, inclusive: true)
+      [lower, upper] ->
+        between?(lower, start, ending, inclusive: true) or
+          between?(upper, start, ending, inclusive: true)
     end
   end
 
@@ -138,26 +139,27 @@ defmodule Dutu.General.Todo do
   Returns a boolean indicating whether `todo` was due before `some_date`
   """
   @spec due_before?(todo :: Todo, some_date :: Date) :: boolean
-  def due_before?(todo, some_date) do
-    cond do
-      todo.due_date == nil and todo.approx_due_date == nil ->
+  def due_before?(%{due_date: due_date, approx_due_date: approx_due_date} = _todo, _)
+      when due_date == nil and approx_due_date == nil do
+    false
+  end
+
+  def due_before?(%{due_date: due_date} = _todo, some_date) when due_date != nil do
+    before?(due_date, some_date)
+  end
+
+  def due_before?(%{approx_due_date: approx_due_date} = _todo, some_date)
+      when approx_due_date != nil do
+    case approx_due_date do
+      [nil, upper] ->
+        upper
+        |> before?(some_date)
+
+      [_lower, nil] ->
         false
 
-      todo.due_date == nil ->
-        case todo.approx_due_date do
-          [nil, upper] ->
-            upper
-            |> before?(some_date)
-
-          [_lower, nil] ->
-            false
-
-          [lower, upper] ->
-            before?(lower, some_date) and before?(upper, some_date)
-        end
-
-      todo.approx_due_date == nil ->
-        before?(todo.due_date, some_date)
+      [lower, upper] ->
+        before?(lower, some_date) and before?(upper, some_date)
     end
   end
 

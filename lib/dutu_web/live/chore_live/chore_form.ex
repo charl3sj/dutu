@@ -31,12 +31,12 @@ defmodule DutuWeb.ChoreLive.ChoreForm do
       |> General.change_chore_form(form_params)
       |> Map.put(:action, :insert)
 
-    if !form_changeset.valid? do
-      {:noreply, assign(socket, :changeset, form_changeset)}
-    else
+    if form_changeset.valid? do
       chore_form = Ecto.Changeset.apply_changes(form_changeset)
       chore_params = ChoreForm.to_chore_params(chore_form)
       save_chore(socket, socket.assigns.action, chore_params)
+    else
+      {:noreply, assign(socket, :changeset, form_changeset)}
     end
   end
 

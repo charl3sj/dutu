@@ -2,7 +2,7 @@ defmodule Dutu.QuotaTest do
   use Dutu.DataCase, async: true
   alias Dutu.DietTracker.Quota
 
-  describe "validate_min_values" do
+  describe "validate_min_limits" do
     test "throws error when per_day conflicts with per_week" do
       invalid_attrs = %{min: %Quota.Limit{per_day: 1, per_week: 3}}
       changeset = Quota.changeset(%Quota{}, invalid_attrs)
