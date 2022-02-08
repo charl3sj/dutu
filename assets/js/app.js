@@ -27,7 +27,7 @@ import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
 // Import flatpickr
-import datePicker from "./datePicker"
+import datePicker, { dateTimePicker } from "./datePicker"
 import "flatpickr/dist/flatpickr.min.css"
 
 import selectInputGroup from './formHelper'
@@ -36,6 +36,7 @@ let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("
 
 let Hooks = {
     datePicker,
+    dateTimePicker
 }
 
 let liveSocket = new LiveSocket("/live", Socket, {

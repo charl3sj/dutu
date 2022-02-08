@@ -30,6 +30,7 @@ defmodule DutuWeb.Router do
     live "/foods/:id/edit", FoodLive.Index, :edit
     live "/foods/category/new", FoodLive.Index, :new_category
     live "/foods/category/:id/edit", FoodLive.Index, :edit_category
+    live "/diet", DietTrackerLive.Index, :index
   end
 
   # Other scopes may use custom stacks.

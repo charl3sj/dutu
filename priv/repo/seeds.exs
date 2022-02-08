@@ -14,7 +14,7 @@ alias Dutu.Repo
 alias Dutu.DietTracker.{Category, Food}
 
 categorized_foods = %{
-  "Grain" => [
+  "Grains" => [
     "Boiled Rice",
     "Rice",
     "Whole Wheat",
@@ -33,8 +33,7 @@ categorized_foods = %{
     "Beans",
     "Carrot",
     "Cabbage",
-    "Green Peas",
-    "Red/Green/Yellow Peppers",
+    "Bell Peppers",
     "Potatoes",
     "Radish",
     "Yam",
@@ -42,7 +41,7 @@ categorized_foods = %{
     "Sweet Potato",
     "[Other Veggie]"
   ],
-  "Fruit/Nut" => [
+  "Fruits / Nuts" => [
     "Avocado",
     "Apple",
     "Banana/Plantain",
@@ -54,17 +53,18 @@ categorized_foods = %{
     "Pistachio",
     "Fig"
   ],
-  "Veg. Protein" => [
+  "Pulses" => [
     "Lentils",
     "Chickpeas",
+    "Green Peas",
     "Green moong",
     "Red moong",
     "Lobia",
     "Peanuts",
     "Urad dal"
   ],
-  "Animal Protein" => ["Fish", "Chicken", "Egg", "Beef", "Mutton", "Pork", "[Other Seafood]"],
-  "Limit/Avoid" => []
+  "Meats" => ["Fish", "Chicken", "Egg", "Beef", "Mutton", "Pork", "[Other Seafood]"],
+  "Limit / Avoid" => []
 }
 
 # Insert categories

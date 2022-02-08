@@ -111,4 +111,44 @@ defmodule Dutu.DietTrackerTest do
       assert %Ecto.Changeset{} = DietTracker.change_food(food)
     end
   end
+
+  describe "tracker_entries" do
+    alias Dutu.DietTracker.TrackerEntry
+
+    test "create_tracker_entry/1 with valid data creates an entry" do
+      food_1 = food_fixture(%{name: "food 1", category_name: "cat 1"})
+      food_2 = food_fixture(%{name: "food 2", category_name: "cat 2"})
+
+      valid_attrs = %{
+        meal_time: ~N"2022-03-14 13:44:23",
+        food_entries: [%{food_id: food_1.id}, %{food_id: food_2.id}]
+      }
+
+      assert {:ok, %TrackerEntry{} = entry} = DietTracker.create_tracker_entry(valid_attrs)
+      assert entry.meal_time == ~N"2022-03-14 13:44:23"
+
+      [food_entry_1, food_entry_2] =
+        entry.food_entries
+        |> Enum.map(&Dutu.Repo.preload(&1, :food))
+
+      assert food_entry_1.food.name == "food 1"
+      assert food_entry_2.food.name == "food 2"
+    end
+
+    test "create_tracker_entry/1 with invalid data returns error changeset" do
+      without_food_entries = %{meal_time: ~N"2022-03-14 13:44:23", food_entries: []}
+
+      assert {:error, %Ecto.Changeset{} = changeset} =
+               DietTracker.create_tracker_entry(without_food_entries)
+
+      assert changeset.errors == [food_entries: {"can't be blank", [validation: :required]}]
+
+      without_meal_time = %{meal_time: nil, food_entries: [%{food_id: 1}, %{food_id: 2}]}
+
+      assert {:error, %Ecto.Changeset{} = changeset} =
+               DietTracker.create_tracker_entry(without_meal_time)
+
+      assert changeset.errors == [meal_time: {"can't be blank", [validation: :required]}]
+    end
+  end
 end

@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="row sticky">
+    <div id="diet-top" class="column column-25">
+      <h1>Diet</h1>
+      <%= img_tag(Routes.static_path(@socket, "/images/berries.png"), [height: "80px"]) %>
+    </div>
+    <div class="column column-75">
+      <div id="tracker-box" class="row">
+        <div id="entries" class="column column-66">
+          <%= for food_name <- @food_names do %>
+          <span class="btn tracker-entry" phx-click="remove_entry" phx-value-name={food_name}>
+              <%= food_name %>
+          </span>
+          <% end %>
+        </div>
+        <form id="tracker-form" class="column column-33"
+              phx-submit="submit_entry" phx-change="set_meal_time">
+          <input name="meal_time" value={@meal_time} phx-hook="dateTimePicker"
+                 id="meal-time" type="text" class="meal-dt-input" placeholder="Meal time [optional]" />
+          <button id="submit-entry-btn" type="submit"
+                  phx-disable-with=".." disabled={Enum.empty? @food_names}>
+            &raquo;
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <%= for {category_name, foods} <- Enum.group_by @foods, &(&1.category.name) do %>
+  <div class="diet-category-block row row-wrap">
+    <div class="category-name column column-33">
+      <h3><%= category_name %></h3>
+    </div>
+    <div class="food-list column column-60">
+      <%= for food <- foods do %>
+      <%= if food.name not in @food_names do %>
+      <span class="btn btn-blue" phx-click="add_entry"
+            phx-value-id={food.id} phx-value-name={food.name}>
+        <%= food.name %>
+      </span>
+      <% end %>
+      <% end %>
+    </div>
+  </div>
+  <% end %>
+</div>

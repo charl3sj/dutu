@@ -22,7 +22,15 @@ defmodule Dutu.DietTrackerFixtures do
   Generate a food.
   """
   def food_fixture(attrs \\ %{}) do
-    category = category_fixture()
+    category =
+      category_fixture(%{
+        name:
+          if Map.has_key?(attrs, :category_name) and attrs.category_name not in [nil, ""] do
+            attrs.category_name
+          else
+            "some name"
+          end
+      })
 
     {:ok, food} =
       attrs

@@ -34,3 +34,30 @@ const datePicker = {
 }
 
 export default datePicker
+
+export const dateTimePicker = {
+    mounted() {
+        this.pickr = flatpickr(this.el, {
+            enableTime: true,
+            altInput: true,
+            altFormat: "M d h:i K",
+            dateFormat: "Y-m-d H:i:S",
+            maxDate: "today",
+            disableMobile: "true"
+        })
+    },
+    updated() {
+        this.pickr.destroy()
+        this.pickr = flatpickr(this.el, {
+            enableTime: true,
+            altInput: true,
+            altFormat: "M d h:i K",
+            dateFormat: "Y-m-d H:i:S",
+            maxDate: "today",
+            disableMobile: "true"
+        })
+    },
+    destroyed() {
+        this.pickr.destroy()
+    }
+}

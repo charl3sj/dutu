@@ -62,4 +62,13 @@ defmodule Dutu.DietTracker do
   def change_food(%Food{} = food, attrs \\ %{}) do
     Food.changeset(food, attrs)
   end
+
+  alias Dutu.DietTracker.{TrackerEntry}
+
+  def create_tracker_entry(%{meal_time: _meal_time, food_entries: food_entry_attrs} = attrs)
+      when is_list(food_entry_attrs) do
+    %TrackerEntry{}
+    |> TrackerEntry.changeset(attrs)
+    |> Repo.insert()
+  end
 end

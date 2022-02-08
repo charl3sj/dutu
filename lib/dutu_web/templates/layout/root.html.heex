@@ -23,7 +23,7 @@
     <%= @inner_content %>
     <footer class="container" style="margin-top:20%; text-align: center">
       <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-        <%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %>
+        <%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home), style: "color: #ddf" %>
       <% end %>
     </footer>
   </body>
