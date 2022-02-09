@@ -119,23 +119,76 @@
   100% { opacity: 0; }
 }
 
+#todays-pane {
+  padding-top:1rem;
+  padding-left: 1rem;
+  background-color:#fafbfa;
+  border-radius: 8px;
+}
+
+#todos-pane h2 {
+  color: #404012;
+}
+
+#chores-pane h2 {
+  color: #003666;
+}
+
 .no-bullet {
   list-style: none;
 }
 
+.done-btn {
+  line-height: 2.4rem;
+  height: 2.4rem;
+  padding: 0 .5rem;
+  background-color: transparent;
+  color: #0069d9;
+  position: absolute;
+  bottom: 0;
+  right: 1rem;
+}
+
+.done-btn:hover {
+  background-color: #0069d9;
+  color: #fff;
+}
+
 .todays-item {
-  background: lemonchiffon;
-  width: fit-content;
-  padding: 1rem 1.5rem;
+  display: inline-flex;
+  padding: 1rem 1rem 1rem 1rem;
   border-radius: 8px;
+  position: relative;
+}
+
+@media screen and (min-width: 640px) {
+  .todays-item {
+    width: 40%;
+    margin-right: 2rem;
+  }
+}
+
+@media screen and (max-width: 639px) {
+  .todays-item {
+    width: 100%;
+  }
+}
+
+
+.todays-todo {
+  background: beige;
+}
+
+.todays-chore {
+  background: aliceblue;
 }
 
 .todays-item .title {
   font-size: 2rem;
 }
 
-.todays-item .due-when {
-  color: #95999c;
+.todays-todo .due-when {
+  color: #715B32;
   font-size: small;
 }
 
@@ -313,7 +366,7 @@ input.meal-dt-input::placeholder {
 
 #latest-tracker-entries {
   border-radius: .5rem;
-  background-color: #EFE4F1;
+  background-color: #F8EDFA;
   padding: 1rem 2rem 0 2rem;
 }
 

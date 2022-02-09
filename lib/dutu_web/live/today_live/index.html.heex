@@ -17,33 +17,42 @@
       setInterval(refreshTime, 1000)
   </script>
 </div>
-<div class="row">
+<div id="todays-pane" class="row">
 <%= if !Enum.empty? @todos do %>
-  <div class="column column-50">
-    <h4>Todos</h4>
+  <div id="todos-pane" class="column">
+    <h2>Todos</h2>
     <ul class="no-bullet">
       <%= for todo <- @todos do %>
-      <li class="todays-item">
-        <div class="title"><%= todo.title %></div>
-        <div class="due-when">[<%= todo.formatted_date %>]</div>
-        <%= live_patch "Done", to: Routes.today_index_path(@socket, :update, :todo, todo.id) %>
+      <li class="todays-item todays-todo">
+        <div style="margin-bottom:1rem;">
+          <div class="title">
+            <%= todo.title %>
+          </div>
+          <div class="due-when"><%= todo.formatted_date %></div>
+        </div>
+        <button phx-click="mark_as_done" phx-value-id={todo.id} phx-value-item-type="todo" class="done-btn">
+          ✔︎
+        </button>
       </li>
       <% end %>
     </ul>
   </div>
 <% end %>
 <%= if !Enum.empty? @chores do %>
-  <div class="column column-50">
-    <h4>Chores</h4>
+  <div id="chores-pane" class="column">
+    <h2>Chores</h2>
     <ul class="no-bullet">
       <%= for chore <- @chores do %>
-      <li class="todays-item">
-        <%= chore.title %>
-        <div class="due-when"></div>
-        <%= if chore.last_done_at do %>
-        <div class="due-when">last done on [<%= chore.last_done_at |> Dutu.DateHelpers.to_default_format %>]</div>
-        <% end %>
-        <%= live_patch "Done", to: Routes.today_index_path(@socket, :update, :chore, chore.id) %>
+      <li class="todays-item todays-chore">
+        <div style="margin-bottom:2rem;">
+          <div class="title"><%= chore.title %></div>
+          <%= if chore.last_done_at do %>
+          <div class="due-when">last done on [<%= chore.last_done_at |> Dutu.DateHelpers.to_default_format %>]</div>
+          <% end %>
+        </div>
+        <button phx-click="mark_as_done" phx-value-id={chore.id} phx-value-item-type="chore" class="done-btn">
+          ✔︎
+        </button>
       </li>
       <% end %>
     </ul>

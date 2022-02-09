@@ -21,16 +21,17 @@ defmodule DutuWeb.TodayLive.Index do
     |> assign(:page_title, "Today")
   end
 
-  defp apply_action(socket, :update, %{"id" => id, "item" => "todo"} = _params) do
-    todo = General.get_todo!(id)
+  @impl true
+  def handle_event("mark_as_done", %{"id" => id, "item-type" => "todo"} = _params, socket) do
+    todo = General.get_todo!(String.to_integer(id))
     General.mark_todo_as_done(todo)
-    redirect(socket, to: "/")
+    {:noreply, assign(socket, :todos, list_todos())}
   end
 
-  defp apply_action(socket, :update, %{"id" => id, "item" => "chore"} = _params) do
-    chore = General.get_chore!(id)
+  def handle_event("mark_as_done", %{"id" => id, "item-type" => "chore"} = _params, socket) do
+    chore = General.get_chore!(String.to_integer(id))
     General.mark_chore_as_done(chore)
-    redirect(socket, to: "/")
+    {:noreply, assign(socket, :chores, list_chores())}
   end
 
   defp list_todos do
