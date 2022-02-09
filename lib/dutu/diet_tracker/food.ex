@@ -14,6 +14,7 @@ defmodule Dutu.DietTracker.Food do
     food
     |> cast(attrs, [:name, :category_id])
     |> validate_required([:name, :category_id])
+    |> foreign_key_constraint(:category_id)
     |> cast_embed(:quota)
   end
 end
