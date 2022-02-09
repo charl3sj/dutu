@@ -16,18 +16,18 @@
           <div class="due-date-option input-group">
             <%= radio_button f, :date_type, @due_date_types.on, [id: "exact-type"] %>
             on <span class="input_error_combo">
-                  <%= text_input f, :due_date, [class: "pickr-input when-input", "phx-hook": "datePicker", "data-input": "", onchange: "selectInputGroup(this)"] %>
+                  <%= text_input f, :due_date, [class: "pickr-input radio-linked-input", "phx-hook": "datePicker", "data-input": "", onchange: "selectNearestRadio(this)"] %>
                   <%= error_tag f, :due_date %>
                </span>
           </div>
           <div class="due-date-option input-group">
             <%= radio_button f, :date_type, @due_date_types.between, [id: "daterange-type"] %>
             between <span class="input-error-combo">
-                      <%= text_input f, :start_date, [class: "pickr-input when-input", "phx-hook": "datePicker", "data-input": "", onchange: "selectInputGroup(this)"] %>
+                      <%= text_input f, :start_date, [class: "pickr-input radio-linked-input", "phx-hook": "datePicker", "data-input": "", onchange: "selectNearestRadio(this)"] %>
                       <%= error_tag f, :start_date %>
                     </span>
             and <span class="input-error-combo">
-                  <%= text_input f, :end_date, [class: "pickr-input when-input", "phx-hook": "datePicker", "data-input": "", onchange: "selectInputGroup(this)"] %>
+                  <%= text_input f, :end_date, [class: "pickr-input radio-linked-input", "phx-hook": "datePicker", "data-input": "", onchange: "selectNearestRadio(this)"] %>
                   <%= error_tag f, :end_date %>
                 </span>
           </div>

@@ -17,7 +17,7 @@
             <%= radio_button f, :frequency, @recurrence_frequency.daily, [id: "every-x-days-option"] %>
             every
               <span class="input-error-combo">
-                  <%= number_input f, :interval, [class: "thin when-input", onfocus: "selectInputGroup(this)"] %>
+                  <%= number_input f, :interval, [class: "thin radio-linked-input", onfocus: "selectNearestRadio(this)"] %>
                   <%= error_tag f, :interval %>
               </span>
             days
@@ -25,7 +25,7 @@
           <div class="recurrence-option input-group">
             <%= radio_button f, :frequency, @recurrence_frequency.weekly, [id: "xyz-days-of-week-option"] %>
             every week on <span class="input-error-combo">
-                            <%= text_input f, :days_of_week, [class: "thin when-input", onfocus: "selectInputGroup(this)"] %>
+                            <%= text_input f, :days_of_week, [class: "thin radio-linked-input", onfocus: "selectNearestRadio(this)"] %>
                             <%= error_tag f, :days_of_week %>
                           </span>
           </div>

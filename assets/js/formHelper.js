@@ -1,8 +1,8 @@
-export default function selectInputGroup(el) {
+export default function selectNearestRadio(el) {
     let getNearestRadioButton = el => el.closest('.input-group').firstElementChild
     let nearestRadioButton = getNearestRadioButton(el)
     function clearOtherInputs() {
-        let optionInputs = document.querySelectorAll('.when-input')
+        let optionInputs = document.querySelectorAll('.radio-linked-input')
         Array.from(optionInputs).map(inputElem => {
             if (getNearestRadioButton(inputElem) !== nearestRadioButton) inputElem.value = ''
         })

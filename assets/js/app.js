@@ -30,7 +30,7 @@ import topbar from "../vendor/topbar"
 import datePicker, { dateTimePicker } from "./datePicker"
 import "flatpickr/dist/flatpickr.min.css"
 
-import selectInputGroup from './formHelper'
+import selectNearestRadio from './formHelper'
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 
@@ -57,4 +57,4 @@ liveSocket.connect()
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
-window.selectInputGroup = selectInputGroup
+window.selectNearestRadio = selectNearestRadio
