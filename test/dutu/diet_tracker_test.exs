@@ -4,7 +4,7 @@ defmodule Dutu.DietTrackerTest do
   alias Dutu.DietTracker
   import Dutu.DietTrackerFixtures
 
-  describe "categories" do
+  describe "| categories |" do
     alias Dutu.DietTracker.Category
 
     @invalid_attrs %{name: nil}
@@ -56,7 +56,7 @@ defmodule Dutu.DietTrackerTest do
     end
   end
 
-  describe "foods" do
+  describe "| foods |" do
     alias Dutu.DietTracker.Food
 
     @invalid_attrs %{name: nil}
@@ -112,7 +112,7 @@ defmodule Dutu.DietTrackerTest do
     end
   end
 
-  describe "tracker_entries" do
+  describe "| tracker_entries |" do
     alias Dutu.DietTracker.TrackerEntry
 
     test "create_tracker_entry/1 with valid data creates an entry" do
@@ -149,6 +149,24 @@ defmodule Dutu.DietTrackerTest do
                DietTracker.create_tracker_entry(without_meal_time)
 
       assert changeset.errors == [meal_time: {"can't be blank", [validation: :required]}]
+    end
+
+    test "delete_tracker_entry/1 deletes entry with given `id`" do
+      food = food_fixture()
+
+      {:ok, %TrackerEntry{} = entry} =
+        DietTracker.create_tracker_entry(%{
+          meal_time: ~N"2022-03-14 13:44:23",
+          food_entries: [%{food_id: food.id}]
+        })
+
+      assert {:ok, %TrackerEntry{}} = DietTracker.delete_tracker_entry(entry.id)
+      assert_raise Ecto.NoResultsError, fn -> DietTracker.get_tracker_entry!(entry.id) end
+    end
+
+    test "delete_tracker_entry/1 returns :error if entry with given `id` doesn't exist" do
+      assert {:error, :not_found, error_msg} = DietTracker.delete_tracker_entry(9999)
+      assert error_msg == "Entry with id 9999 not found"
     end
   end
 end

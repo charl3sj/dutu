@@ -63,12 +63,41 @@ defmodule Dutu.DietTracker do
     Food.changeset(food, attrs)
   end
 
-  alias Dutu.DietTracker.{TrackerEntry}
+  alias Dutu.DietTracker.{TrackerEntry, FoodEntry}
 
   def create_tracker_entry(%{meal_time: _meal_time, food_entries: food_entry_attrs} = attrs)
       when is_list(food_entry_attrs) do
     %TrackerEntry{}
     |> TrackerEntry.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def get_tracker_entry!(id), do: Repo.get!(TrackerEntry, id)
+
+  def list_last_5_tracker_entries() do
+    query =
+      from te in TrackerEntry,
+        join: tef in FoodEntry,
+        on: tef.entry_id == te.id,
+        join: f in Food,
+        on: tef.food_id == f.id,
+        group_by: [te.id],
+        order_by: [desc: te.id],
+        select: %{
+          id: te.id,
+          meal_time: te.meal_time,
+          foods: fragment("string_agg(?, ', ' order by ?)", f.name, f.name)
+        },
+        limit: 5
+
+    Repo.all(query)
+  end
+
+  def delete_tracker_entry(id) when is_integer(id) do
+    try do
+      get_tracker_entry!(id) |> Repo.delete()
+    rescue
+      Ecto.NoResultsError -> {:error, :not_found, "Entry with id #{id} not found"}
+    end
   end
 end

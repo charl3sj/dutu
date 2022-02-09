@@ -241,7 +241,7 @@ div.segment h3 {
   border: 1px solid #0069d9;
 }
 
-.tracker-entry {
+.food-entry {
   background-color: lightseagreen;
   color: #f3f3f3;
   font-weight: bolder;
@@ -305,4 +305,20 @@ input.meal-dt-input::placeholder {
 #submit-entry-btn {
   font-size:2rem;
   padding:0 1rem;
+}
+
+.mg-top-4 {
+  margin-top: 4rem;
+}
+
+#latest-tracker-entries {
+  border-radius: .5rem;
+  background-color: #EFE4F1;
+  padding: 1rem 2rem 0 2rem;
+}
+
+#latest-tracker-entries caption{
+  text-align: left;
+  font-weight: 400;
+  margin-bottom: 2rem;
 }

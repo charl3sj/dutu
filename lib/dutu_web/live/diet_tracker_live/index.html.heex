@@ -6,9 +6,9 @@
     </div>
     <div class="column column-75">
       <div id="tracker-box" class="row">
-        <div id="entries" class="column column-66">
+        <div id="food-entries" class="column column-66">
           <%= for food_name <- @food_names do %>
-          <span class="btn tracker-entry" phx-click="remove_entry" phx-value-name={food_name}>
+          <span class="btn food-entry" phx-click="remove_food" phx-value-name={food_name}>
               <%= food_name %>
           </span>
           <% end %>
@@ -33,7 +33,7 @@
     <div class="food-list column column-60">
       <%= for food <- foods do %>
       <%= if food.name not in @food_names do %>
-      <span class="btn btn-blue" phx-click="add_entry"
+      <span class="btn btn-blue" phx-click="add_food"
             phx-value-id={food.id} phx-value-name={food.name}>
         <%= food.name %>
       </span>
@@ -42,4 +42,25 @@
     </div>
   </div>
   <% end %>
+  <div id="latest-tracker-entries" class="row mg-top-4">
+    <table>
+      <caption>Last 5 entries</caption>
+      <%= for entry <- @last_5_entries do %>
+      <tr>
+        <td style="width:22%;border-right:1px solid #DDD">
+          <%= Dutu.DateHelpers.to_default_format(entry.meal_time) %>
+        </td>
+        <td>
+          <%= entry.foods %>
+        </td>
+        <td>
+          <span phx-click="delete_db_entry" phx-value-id={entry.id}
+                data-confirm="Are you sure?" style="cursor:pointer;color:#AAA">
+            ✖︎
+          </span>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
 </div>

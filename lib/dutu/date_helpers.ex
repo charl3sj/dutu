@@ -24,7 +24,10 @@ defmodule Dutu.DateHelpers do
   def start_of_next_year, do: start_of_this_year() |> shift(years: 1)
 
   def to_default_format(nil), do: ""
-  def to_default_format(date), do: Calendar.strftime(date, "%b %d")
+  def to_default_format(%Date{} = date), do: Calendar.strftime(date, "%b %d")
+
+  def to_default_format(%NaiveDateTime{} = datetime),
+    do: Calendar.strftime(datetime, "%b %d, %I:%M %p")
 
   defmacro __using__(_) do
     quote do
