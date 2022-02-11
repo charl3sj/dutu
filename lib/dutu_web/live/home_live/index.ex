@@ -1,4 +1,4 @@
-defmodule DutuWeb.TodayLive.Index do
+defmodule DutuWeb.HomeLive.Index do
   use DutuWeb, :live_view
 
   alias Dutu.General
@@ -18,7 +18,7 @@ defmodule DutuWeb.TodayLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Today")
+    |> assign(:page_title, "Home")
   end
 
   @impl true

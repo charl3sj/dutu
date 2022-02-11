@@ -17,6 +17,16 @@ defmodule DutuWeb.DietTrackerLive.Index do
   end
 
   @impl true
+  def handle_params(params, _url, socket) do
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  end
+
+  defp apply_action(socket, :index, _params) do
+    socket
+    |> assign(:page_title, "Diet Tracker")
+  end
+
+  @impl true
   def handle_event("add_food", params, socket) do
     food_entries =
       socket.assigns.food_entries

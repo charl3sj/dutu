@@ -20,7 +20,7 @@ defmodule Dutu.MixProject do
   def application do
     [
       mod: {Dutu.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :os_mon]
     ]
   end
 
@@ -50,7 +50,8 @@ defmodule Dutu.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
       {:timex, "~> 3.0"},
-      {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      {:ecto_psql_extras, "~> 0.6"},
     ]
   end
 

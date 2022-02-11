@@ -36,7 +36,7 @@ defmodule DutuWeb.TodoLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Todos")
+    |> assign(:page_title, "Todos")
     |> assign(:todo, nil)
   end
 
