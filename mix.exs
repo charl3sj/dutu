@@ -51,7 +51,7 @@ defmodule Dutu.MixProject do
       {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
       {:timex, "~> 3.0"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
-      {:ecto_psql_extras, "~> 0.6"},
+      {:ecto_psql_extras, "~> 0.6"}
     ]
   end
 

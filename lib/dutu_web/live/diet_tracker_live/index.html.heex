@@ -25,18 +25,36 @@
       </div>
     </div>
   </div>
-  <%= for {category_name, foods} <- Enum.group_by @foods, &(&1.category.name) do %>
+  <%= for {category_name, foods} <- Enum.group_by @foods, &(&1.food.category.name) do %>
   <div class="diet-category-block row row-wrap">
     <div class="category-name column column-33">
       <h3><%= category_name %></h3>
     </div>
     <div class="food-list column column-60">
-      <%= for food <- foods do %>
-      <%= if food.name not in @food_names do %>
-      <span class="btn btn-blue" phx-click="add_food"
-            phx-value-id={food.id} phx-value-name={food.name}>
-        <%= food.name %>
-      </span>
+      <%= for food_row <- foods do %>
+      <%= if food_row.food.name not in @food_names do %>
+      <div class={"food-elem rank-#{if food_row.rank > 2 do "gt2" else food_row.rank end}"}>
+          <span class="btn btn-blue" phx-click="add_food"
+               phx-value-id={food_row.food.id} phx-value-name={food_row.food.name}>
+            <%= food_row.food.name %>
+            <%= if food_row.day_max_reached do %>
+            <span class="day-quota">●</span>
+            <% else %>
+              <%= if food_row.day_min_reached do %><span class="day-quota">○</span><% end %>
+            <% end %>
+            <%= if food_row.week_max_reached do %>
+            <span class="week-quota">●</span>
+            <% else %>
+              <%= if food_row.week_min_reached do %><span class="week-quota">○</span><% end %>
+            <% end %>
+            <%= if food_row.month_max_reached do %>
+            <span class="month-quota">●</span>
+            <% else %>
+              <%= if food_row.month_min_reached do %><span class="month-quota">○</span><% end %>
+            <% end %>
+            <span class="count"><%= food_row.count %></span>
+          </span>
+      </div>
       <% end %>
       <% end %>
     </div>

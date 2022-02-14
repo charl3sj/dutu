@@ -8,7 +8,7 @@ defmodule DutuWeb.DietTrackerLive.Index do
   def mount(_params, _session, socket) do
     {:ok,
      assign(socket,
-       foods: DietTracker.list_foods(),
+       foods: DietTracker.list_and_rank_foods_by_current_month_consumption(),
        food_entries: %{},
        food_names: [],
        meal_time: nil,
@@ -72,6 +72,7 @@ defmodule DutuWeb.DietTrackerLive.Index do
         {:noreply,
          socket
          |> assign(
+           foods: DietTracker.list_and_rank_foods_by_current_month_consumption(),
            food_entries: %{},
            food_names: [],
            meal_time: nil,
@@ -92,7 +93,10 @@ defmodule DutuWeb.DietTrackerLive.Index do
       {:ok, _} ->
         {:noreply,
          socket
-         |> assign(last_5_entries: DietTracker.list_last_5_tracker_entries())
+         |> assign(
+           foods: DietTracker.list_and_rank_foods_by_current_month_consumption(),
+           last_5_entries: DietTracker.list_last_5_tracker_entries()
+         )
          |> put_flash(:info, "Entry deleted")}
 
       {:error, changeset} ->

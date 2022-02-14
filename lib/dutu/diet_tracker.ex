@@ -100,4 +100,92 @@ defmodule Dutu.DietTracker do
       Ecto.NoResultsError -> {:error, :not_found, "Entry with id #{id} not found"}
     end
   end
+
+  defp get_weekly_monthly_bounds() do
+    {:ok, month_start} =
+      Dutu.DateHelpers.start_of_this_month()
+      |> NaiveDateTime.new(~T[00:00:00])
+
+    {:ok, month_end} =
+      Dutu.DateHelpers.start_of_this_month()
+      |> Timex.end_of_month()
+      |> NaiveDateTime.new(~T[23:59:59])
+
+    {:ok, week_start} =
+      Dutu.DateHelpers.start_of_this_week()
+      |> NaiveDateTime.new(~T[00:00:00])
+
+    {:ok, week_end} =
+      Dutu.DateHelpers.start_of_this_week()
+      |> Timex.end_of_week()
+      |> NaiveDateTime.new(~T[23:59:59])
+
+    {month_start, month_end, week_start, week_end}
+  end
+
+  def list_and_rank_foods_by_current_month_consumption() do
+    {month_start, month_end, week_start, week_end} = get_weekly_monthly_bounds()
+    today = Dutu.DateHelpers.today()
+
+    inner_query =
+      from te in TrackerEntry,
+        join: tef in FoodEntry,
+        on: tef.entry_id == te.id,
+        select: %{
+          food_id: tef.food_id,
+          count: count(),
+          count_this_week:
+            count() |> filter(te.meal_time >= ^week_start and te.meal_time <= ^week_end),
+          count_today: count() |> filter(fragment("?::date", te.meal_time) == ^today)
+        },
+        where: te.meal_time >= ^month_start and te.meal_time <= ^month_end,
+        group_by: [tef.food_id]
+
+    query =
+      from f in Food,
+        preload: [:category],
+        left_join: s in subquery(inner_query),
+        on: s.food_id == f.id,
+        select: %{
+          food: f,
+          count: s.count,
+          rank:
+            dense_rank()
+            |> over(partition_by: f.category_id, order_by: [asc_nulls_first: s.count]),
+          count_this_week: s.count_this_week,
+          count_today: s.count_today,
+          day_min_reached:
+            fragment(
+              "CASE WHEN count_today >= (?#>>'{min,per_day}')::int THEN true ELSE false END",
+              f.quota
+            ),
+          week_min_reached:
+            fragment(
+              "CASE WHEN count_this_week >= (?#>>'{min,per_week}')::int THEN true ELSE false END",
+              f.quota
+            ),
+          month_min_reached:
+            fragment(
+              "CASE WHEN count >= (?#>>'{min,per_month}')::int THEN true ELSE false END",
+              f.quota
+            ),
+          day_max_reached:
+            fragment(
+              "CASE WHEN count_today >= (?#>>'{max,per_day}')::int THEN true ELSE false END",
+              f.quota
+            ),
+          week_max_reached:
+            fragment(
+              "CASE WHEN count_this_week >= (?#>>'{max,per_week}')::int THEN true ELSE false END",
+              f.quota
+            ),
+          month_max_reached:
+            fragment(
+              "CASE WHEN count >= (?#>>'{max,per_month}')::int THEN true ELSE false END",
+              f.quota
+            )
+        }
+
+    Repo.all(query)
+  end
 end

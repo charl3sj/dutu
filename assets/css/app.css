@@ -281,6 +281,10 @@ div.segment h3 {
   cursor: pointer;
 }
 
+.food-elem {
+  display: inline-block;
+}
+
 .btn-blue {
   background-color: #fff;
   color: #0069d9;
@@ -292,6 +296,35 @@ div.segment h3 {
   background-color: #0069d9;
   color: #f5f5f5;
   border: 1px solid #0069d9;
+}
+
+.rank-1 .btn {
+  background-color: #0069d9;
+  color: #f5f5f5;
+}
+
+.rank-2 {
+  font-size: 1.3rem;
+}
+
+.rank-gt2 {
+  font-size: 1rem;
+}
+
+.food-elem .count {
+  color: #BBF;
+}
+
+.food-elem .day-quota {
+  color: red;
+}
+
+.food-elem .week-quota {
+  color: limegreen;
+}
+
+.food-elem .month-quota {
+  color: black;
 }
 
 .food-entry {
