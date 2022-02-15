@@ -1,6 +1,6 @@
 <div class="top row">
   <div id="left" class="column column-75">
-    <h1>Today
+    <h1>
       <span id="date"><%= Timex.today("Asia/Calcutta") |> Calendar.strftime("%a %b %d") %></span>
       <span id="clock"><%= Timex.now("Asia/Calcutta") |> Calendar.strftime("%I:%M:%S %p") %></span>
     </h1>
@@ -15,6 +15,9 @@
           document.getElementById("clock").innerHTML = d.toLocaleTimeString()
       }
       setInterval(refreshTime, 1000)
+
+      // Refresh page on window focus
+      window.addEventListener("focus", () => { location.reload() })
   </script>
 </div>
 <div id="todays-pane" class="row">

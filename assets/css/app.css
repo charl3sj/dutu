@@ -120,6 +120,7 @@
 }
 
 #todays-pane {
+  margin-top: 2rem;
   padding-top:1rem;
   padding-left: 1rem;
   background-color:#fafbfa;
@@ -127,11 +128,11 @@
 }
 
 #todos-pane h2 {
-  color: #404012;
+  color: #bfbfb2;
 }
 
 #chores-pane h2 {
-  color: #003666;
+  color: #bac6d1;
 }
 
 .no-bullet {
@@ -200,13 +201,15 @@ input.pickr-input {
 }
 
 .top #date {
-  color: #666;
+  color: black;
   border-right: 1px dotted #bbb;
-  border-left: 1px dotted #bbb;
-  margin-left: .5em;
-  padding-left: .5em;
   margin-right: .5em;
   padding-right: .5em;
+  font-weight: bold;
+}
+
+.top #right {
+  text-align: right;
 }
 
 input.thin {
