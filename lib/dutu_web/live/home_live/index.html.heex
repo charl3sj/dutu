@@ -17,7 +17,7 @@
       setInterval(refreshTime, 1000)
 
       // Refresh page on window focus
-      window.addEventListener("focus", () => { location.reload() })
+      window.onblur= function() {window.onfocus= function () {location.reload()}};
   </script>
 </div>
 <div id="todays-pane" class="row">

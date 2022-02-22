@@ -28,7 +28,7 @@ Step 3: `./mix ecto.setup`
 
 Step 4: `docker-compose up -d`
 
-Visit [`localhost:9023`](http://localhost:9023) from your browser (Chromium only, as of now)
+Visit [`localhost:9023`](http://localhost:9023) from your browser
 
 
 ### For production setup
