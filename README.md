@@ -20,13 +20,9 @@ free to fork the repo.
 
 ### To set up locally
 
-Step 1: `docker-compose build`
+Step 1: `./setup-local.sh` (requires `npm` and `docker-compose` to be pre-installed)
 
-Step 2: `./mix deps.get`
-
-Step 3: `./mix ecto.setup`
-
-Step 4: `docker-compose up -d`
+Step 2: `docker-compose up -d`
 
 Visit [`localhost:9023`](http://localhost:9023) from your browser
 
