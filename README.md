@@ -22,11 +22,13 @@ free to fork the repo.
 
 Step 1: `docker-compose build`
 
-Step 2: `./mix ecto.setup`
+Step 2: `./mix deps.get`
 
-Step 3: `docker-compose up -d`
+Step 3: `./mix ecto.setup`
 
-Visit [`localhost:9023`](http://localhost:9023) from your browser.
+Step 4: `docker-compose up -d`
+
+Visit [`localhost:9023`](http://localhost:9023) from your browser (Chromium only, as of now)
 
 
 ### For production setup
